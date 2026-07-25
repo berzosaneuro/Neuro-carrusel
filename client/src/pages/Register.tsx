@@ -27,35 +27,42 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
-      <div className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Create your account</h1>
-        <p className="text-slate-500 dark:text-slate-400 mb-6">Start your English course from A2 onward</p>
+    <div className="min-h-full flex items-center justify-center px-6 py-10">
+      <div className="w-full max-w-sm glass-panel rounded-3xl p-8">
+        <p className="font-display text-xs tracking-[0.3em] text-neon-magenta-glow mb-2">NEW USER</p>
+        <h1 className="font-display text-2xl font-bold text-white mb-1">Create your account</h1>
+        <p className="text-ink-dim mb-6">Start your English course from A2 onward</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Name</label>
+            <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wide text-neon-cyan mb-1">
+              Name
+            </label>
             <input
               id="name"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-neon-cyan/25 bg-void-2/60 px-4 py-2.5 text-white placeholder:text-ink-dim focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
+            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-neon-cyan mb-1">
+              Email
+            </label>
             <input
               id="email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-neon-cyan/25 bg-void-2/60 px-4 py-2.5 text-white placeholder:text-ink-dim focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>
+            <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-neon-cyan mb-1">
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -63,25 +70,21 @@ export default function Register() {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-neon-cyan/25 bg-void-2/60 px-4 py-2.5 text-white placeholder:text-ink-dim focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition"
             />
-            <p className="text-xs text-slate-400 mt-1">At least 6 characters</p>
+            <p className="text-xs text-ink-dim mt-1">At least 6 characters</p>
           </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-neon-magenta-glow">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-medium py-2.5 transition"
-          >
-            {submitting ? 'Creating account…' : 'Create account'}
+          <button type="submit" disabled={submitting} className="btn-3d btn-3d-magenta w-full py-3 mt-2">
+            {submitting ? 'Creating account…' : 'CREATE ACCOUNT'}
           </button>
         </form>
 
-        <p className="mt-6 text-sm text-center text-slate-500 dark:text-slate-400">
+        <p className="mt-6 text-sm text-center text-ink-dim">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">
+          <Link to="/login" className="text-neon-cyan-glow font-semibold hover:underline">
             Sign in
           </Link>
         </p>

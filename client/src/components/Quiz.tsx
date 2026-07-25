@@ -56,28 +56,28 @@ export default function Quiz({ questions, onFinish }: Props) {
 
   return (
     <div className="max-w-xl mx-auto">
-      <p className="text-sm text-slate-400 mb-3">
-        Question {index + 1} of {questions.length} · Score so far: {score}
+      <p className="text-xs font-display tracking-widest text-ink-dim mb-3">
+        QUESTION {index + 1}/{questions.length} · SCORE {score}
       </p>
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 p-6 bg-white dark:bg-slate-900">
-        <p className="font-medium text-slate-900 dark:text-white mb-4">{question.question}</p>
+      <div className="glass-panel rounded-2xl p-5 glow-cyan">
+        <p className="font-medium text-white mb-4">{question.question}</p>
 
         {question.type === 'mc' ? (
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {question.options.map((opt, i) => {
-              let style = 'border-slate-300 dark:border-slate-700 hover:border-indigo-400';
+              let style = 'tile-3d';
               if (revealed) {
-                if (i === question.answer) style = 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40';
-                else if (i === selected) style = 'border-red-400 bg-red-50 dark:bg-red-950/40';
+                if (i === question.answer) style = 'tile-3d tile-3d-correct';
+                else if (i === selected) style = 'tile-3d tile-3d-wrong';
               } else if (i === selected) {
-                style = 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40';
+                style = 'tile-3d tile-3d-selected';
               }
               return (
                 <button
                   key={i}
                   disabled={revealed}
                   onClick={() => setSelected(i)}
-                  className={`w-full text-left px-4 py-2.5 rounded-lg border ${style} disabled:cursor-default transition`}
+                  className={`w-full text-left px-4 py-2.5 ${style} disabled:cursor-default`}
                 >
                   {opt}
                 </button>
@@ -91,10 +91,10 @@ export default function Quiz({ questions, onFinish }: Props) {
               disabled={revealed}
               onChange={(e) => setFillValue(e.target.value)}
               placeholder="Type your answer…"
-              className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-xl border border-neon-cyan/25 bg-void-2/60 px-4 py-2.5 text-white placeholder:text-ink-dim focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition"
             />
             {revealed && (
-              <p className={`text-sm mt-2 ${lastCorrect ? 'text-emerald-600' : 'text-red-500'}`}>
+              <p className={`text-sm mt-2 font-semibold ${lastCorrect ? 'text-neon-green-glow' : 'text-neon-magenta-glow'}`}>
                 {lastCorrect ? 'Correct!' : `Correct answer: ${question.answer.replace('...', ' ... ')}`}
               </p>
             )}
@@ -106,13 +106,13 @@ export default function Quiz({ questions, onFinish }: Props) {
             <button
               onClick={check}
               disabled={question.type === 'mc' ? selected === null : fillValue.trim() === ''}
-              className="px-5 py-2 rounded-lg bg-indigo-600 text-white disabled:opacity-40"
+              className="btn-3d btn-3d-primary px-6 py-2.5 text-sm"
             >
-              Check
+              CHECK
             </button>
           ) : (
-            <button onClick={next} className="px-5 py-2 rounded-lg bg-indigo-600 text-white">
-              {isLast ? 'Finish quiz' : 'Next question'}
+            <button onClick={next} className="btn-3d btn-3d-magenta px-6 py-2.5 text-sm">
+              {isLast ? 'FINISH QUIZ' : 'NEXT →'}
             </button>
           )}
         </div>

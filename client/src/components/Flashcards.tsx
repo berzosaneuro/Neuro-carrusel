@@ -16,41 +16,43 @@ export default function Flashcards({ items }: { items: VocabItem[] }) {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <p className="text-sm text-slate-400">
-        Card {index + 1} of {items.length} · {seen.size}/{items.length} viewed
+    <div className="flex flex-col items-center gap-5">
+      <p className="text-xs font-display tracking-widest text-ink-dim">
+        CARD {index + 1}/{items.length} · {seen.size}/{items.length} VIEWED
       </p>
 
       <button
         onClick={() => setFlipped((f) => !f)}
-        className="card-flip w-full max-w-md h-56 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-slate-900 shadow-md flex flex-col items-center justify-center px-6 text-center cursor-pointer select-none"
+        className="card-flip glass-panel w-full max-w-md h-56 rounded-2xl flex flex-col items-center justify-center px-6 text-center cursor-pointer select-none border-neon-cyan/25 glow-cyan"
         key={`${index}-${flipped}`}
       >
         {!flipped ? (
-          <p className="text-2xl font-bold text-slate-900 dark:text-white">{item.word}</p>
+          <p className="font-display text-2xl font-bold text-white">{item.word}</p>
         ) : (
           <div className="space-y-3">
-            <p className="text-xl font-semibold text-indigo-600 dark:text-indigo-400">{item.translation}</p>
-            <p className="text-sm italic text-slate-500 dark:text-slate-400">"{item.example}"</p>
+            <p className="font-display text-xl font-bold text-neon-magenta-glow">{item.translation}</p>
+            <p className="text-sm italic text-ink-dim">"{item.example}"</p>
           </div>
         )}
-        <p className="text-xs text-slate-400 mt-4">Tap to {flipped ? 'see the word' : 'reveal meaning'}</p>
+        <p className="text-[10px] tracking-widest text-neon-cyan-glow mt-4 font-display">
+          TAP TO {flipped ? 'SEE THE WORD' : 'REVEAL MEANING'}
+        </p>
       </button>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 w-full max-w-md">
         <button
           onClick={() => go(-1)}
           disabled={index === 0}
-          className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 disabled:opacity-40"
+          className="btn-3d btn-3d-ghost flex-1 py-2.5 text-sm"
         >
-          ← Previous
+          ← PREV
         </button>
         <button
           onClick={() => go(1)}
           disabled={index === items.length - 1}
-          className="px-4 py-2 rounded-lg bg-indigo-600 text-white disabled:opacity-40"
+          className="btn-3d btn-3d-primary flex-1 py-2.5 text-sm"
         >
-          Next →
+          NEXT →
         </button>
       </div>
     </div>

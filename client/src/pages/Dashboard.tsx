@@ -28,43 +28,45 @@ export default function Dashboard() {
   const overallPct = totalUnits > 0 ? Math.round((completedUnits / totalUnits) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div className="min-h-full pb-10">
+      <header className="sticky top-0 z-30 px-5 pt-6 pb-4 bg-void-2/80 backdrop-blur border-b border-neon-cyan/15">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-slate-900 dark:text-white">English Course</h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Hi, {user?.name} 👋</p>
+            <p className="font-display text-[10px] tracking-[0.3em] text-neon-cyan-glow">ENGLISH OS</p>
+            <p className="text-sm text-ink-dim">Hi, {user?.name} 👋</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-semibold text-orange-500">🔥 {user?.currentStreak ?? 0} day streak</p>
-              <p className="text-xs text-slate-400">Best: {user?.bestStreak ?? 0}</p>
+              <p className="text-sm font-bold text-neon-yellow" style={{ textShadow: '0 0 10px rgba(244,255,91,0.6)' }}>
+                🔥 {user?.currentStreak ?? 0}
+              </p>
+              <p className="text-[10px] text-ink-dim">best {user?.bestStreak ?? 0}</p>
             </div>
-            <button
-              onClick={logout}
-              className="text-sm px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-            >
-              Log out
+            <button onClick={logout} className="btn-3d btn-3d-ghost text-xs px-3 py-2">
+              LOG OUT
             </button>
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink-dim">Overall progress</p>
+            <span className="text-xs text-neon-cyan-glow font-semibold">
+              {completedUnits}/{totalUnits}
+            </span>
+          </div>
+          <div className="h-2.5 w-full rounded-full bg-black/50 overflow-hidden border border-neon-cyan/20">
+            <div
+              className="h-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-magenta transition-all"
+              style={{ width: `${overallPct}%`, boxShadow: '0 0 10px rgba(0,240,255,0.6)' }}
+            />
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="font-semibold text-slate-800 dark:text-slate-200">Overall progress</h2>
-            <span className="text-sm text-slate-500">
-              {completedUnits}/{totalUnits} units
-            </span>
-          </div>
-          <div className="h-2.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-            <div className="h-full bg-indigo-600 transition-all" style={{ width: `${overallPct}%` }} />
-          </div>
-        </div>
-
-        {loading && <p className="text-slate-500">Loading your course…</p>}
-        {error && <p className="text-red-600">{error}</p>}
+      <main className="px-5 pt-6">
+        {loading && <p className="text-ink-dim font-display tracking-widest text-sm">LOADING COURSE…</p>}
+        {error && <p className="text-neon-magenta-glow">{error}</p>}
 
         {!loading &&
           !error &&
@@ -72,15 +74,15 @@ export default function Dashboard() {
             const levelUnits = units.filter((u) => u.level === level.id);
             const levelCompleted = levelUnits.filter((u) => u.completed).length;
             return (
-              <section key={level.id} className="mb-10">
+              <section key={level.id} className="mb-9">
                 <div className="mb-3">
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">{level.title}</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{level.description}</p>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <h2 className="font-display text-lg font-bold text-white">{level.title}</h2>
+                  <p className="text-sm text-ink-dim">{level.description}</p>
+                  <p className="text-xs text-neon-cyan-glow mt-1">
                     {levelCompleted}/{levelUnits.length} completed
                   </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   {levelUnits.map((unit) => (
                     <UnitCard key={unit.id} unit={unit} />
                   ))}
