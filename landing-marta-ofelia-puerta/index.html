@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Marta Ofelia Puerta · Psicóloga especialista en Autismo (TEA)</title>
+<meta name="description" content="Marta Ofelia Puerta, psicóloga clínica colombiana especialista en autismo (TEA). Evaluación, terapia y acompañamiento neuroafirmativo para personas autistas y sus familias." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23050318' stroke='%2300f0ff' stroke-width='4'/%3E%3Ctext x='50' y='64' font-size='42' text-anchor='middle' fill='%2300f0ff' font-family='sans-serif'%3EM%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: dark;
+    --void: #050318;
+    --void-2: #0a0726;
+    --panel: #0d0b26;
+    --panel-2: #14113a;
+    --cyan: #00f0ff;
+    --magenta: #ff2bd6;
+    --purple: #a742ff;
+    --pink: #ff5ec4;
+    --yellow: #f4ff5b;
+    --green: #39ff9d;
+    --ink: #eaf6ff;
+    --ink-dim: #8b8fc7;
+    --font-display: 'Orbitron', 'Rajdhani', system-ui, sans-serif;
+    --font-body: 'Rajdhani', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--void);
+    font-family: var(--font-body);
+    color: var(--ink);
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 20% -10%, rgba(167, 66, 255, 0.35), transparent 45%),
+      radial-gradient(circle at 100% 10%, rgba(0, 240, 255, 0.25), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(255, 43, 214, 0.2), transparent 45%),
+      linear-gradient(180deg, #050318 0%, #0a0726 100%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: 0.02em; margin: 0; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  .stage {
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background-image:
+      linear-gradient(rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* ---------- Phone shell ---------- */
+  .phone-shell {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(180deg, var(--void-2) 0%, #08061f 100%);
+    overflow: hidden;
+  }
+
+  @media (min-width: 480px) {
+    .phone-shell {
+      min-height: min(932px, 96dvh);
+      margin: 2dvh auto;
+      border-radius: 3rem;
+      border: 2px solid rgba(0, 240, 255, 0.35);
+      box-shadow:
+        0 0 0 8px #050318,
+        0 0 0 9px rgba(0, 240, 255, 0.25),
+        0 25px 80px rgba(167, 66, 255, 0.35),
+        inset 0 0 40px rgba(0, 240, 255, 0.08);
+    }
+  }
+
+  .phone-notch {
+    display: none;
+  }
+  @media (min-width: 480px) {
+    .phone-notch {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 22px;
+      background: #050318;
+      border-radius: 0 0 16px 16px;
+      z-index: 50;
+    }
+  }
+
+  /* iOS-style status bar */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.4rem 0.3rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(5, 3, 24, 0.55);
+    backdrop-filter: blur(10px);
+  }
+  .status-bar .icons { display: flex; align-items: center; gap: 5px; }
+
+  .phone-scroll {
+    height: 100%;
+    max-height: 100dvh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 6.5rem;
+  }
+  @media (min-width: 480px) {
+    .phone-scroll { max-height: min(932px, 96dvh); }
+  }
+  .phone-scroll::-webkit-scrollbar { width: 6px; }
+  .phone-scroll::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.3); border-radius: 4px; }
+
+  section { padding: 1.75rem 1.35rem; }
+
+  /* ---------- Glass panels ---------- */
+  .glass-panel {
+    background: linear-gradient(160deg, rgba(20, 17, 58, 0.85), rgba(13, 11, 38, 0.85));
+    border: 1px solid rgba(0, 240, 255, 0.18);
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+  }
+
+  .text-glow-cyan { color: var(--cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.65); }
+  .text-glow-magenta { color: var(--magenta); text-shadow: 0 0 10px rgba(255, 43, 214, 0.6); }
+  .text-glow-green { color: var(--green); text-shadow: 0 0 10px rgba(57, 255, 157, 0.65); }
+  .text-dim { color: var(--ink-dim); }
+
+  /* ---------- Hero ---------- */
+  .hero { text-align: center; padding-top: 1.5rem; }
+  .avatar-wrap {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    margin: 0.5rem auto 1.1rem;
+  }
+  .avatar-ring {
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #ff2bd6, #a742ff, #00f0ff, #39ff9d, #f4ff5b, #ff2bd6);
+    animation: spin 9s linear infinite;
+    filter: blur(0.3px);
+  }
+  .avatar-ring::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: var(--void-2);
+  }
+  .avatar-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 2px solid rgba(0, 240, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--cyan);
+    text-shadow: 0 0 18px rgba(0, 240, 255, 0.7);
+    z-index: 2;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: rgba(57, 255, 157, 0.08);
+    border: 1px solid rgba(57, 255, 157, 0.35);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 0.9rem;
+  }
+  .dot-live {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .hero h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+  .hero .role {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--magenta);
+    text-shadow: 0 0 10px rgba(255, 43, 214, 0.5);
+  }
+  .hero .tagline {
+    margin-top: 0.85rem;
+    font-size: 1.02rem;
+    line-height: 1.5;
+    color: var(--ink-dim);
+    padding: 0 0.3rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+  }
+
+  /* ---------- 3D neon buttons ---------- */
+  .btn-3d {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    border: none;
+    cursor: pointer;
+    border-radius: 14px;
+    padding: 0.85rem 1rem;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+  }
+  .btn-3d-primary {
+    color: #04030d;
+    background: linear-gradient(160deg, var(--magenta) 0%, #b6009c 100%);
+    box-shadow: 0 5px 0 #8a0079, 0 8px 18px rgba(255, 43, 214, 0.35);
+  }
+  .btn-3d-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #8a0079, 0 2px 8px rgba(255, 43, 214, 0.25); }
+  .btn-3d-ghost {
+    color: var(--ink);
+    background: linear-gradient(160deg, rgba(139, 143, 199, 0.18), rgba(139, 143, 199, 0.08));
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(139, 143, 199, 0.35);
+  }
+  .btn-3d-ghost:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(139, 143, 199, 0.35); }
+
+  /* ---------- Stats ---------- */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+  .stat-card {
+    padding: 0.8rem 0.4rem;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.55);
+  }
+  .stat-card .label {
+    margin-top: 0.2rem;
+    font-size: 0.68rem;
+    color: var(--ink-dim);
+    line-height: 1.25;
+  }
+
+  /* ---------- Section heading ---------- */
+  .section-head { margin-bottom: 1.1rem; }
+  .section-kicker {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-top: 0.3rem;
+    color: var(--ink);
+  }
+  .section-sub {
+    margin-top: 0.45rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-dim);
+  }
+
+  /* ---------- About ---------- */
+  .about-card { padding: 1.2rem; }
+  .about-card p + p { margin-top: 0.7rem; }
+  .about-card p { font-size: 0.93rem; line-height: 1.6; color: var(--ink-dim); }
+  .credential-list { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .credential {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--ink);
+  }
+  .credential svg { flex-shrink: 0; margin-top: 2px; }
+
+  /* ---------- Approach (neuroaffirming) ---------- */
+  .approach-card {
+    padding: 1.3rem;
+    text-align: center;
+    background: linear-gradient(160deg, rgba(167, 66, 255, 0.12), rgba(13, 11, 38, 0.85));
+    border: 1px solid rgba(167, 66, 255, 0.3);
+  }
+  .infinity-icon { margin: 0 auto 0.8rem; display: block; }
+
+  /* ---------- Carousel (services) ---------- */
+  .carousel-track {
+    display: flex;
+    gap: 0.85rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.2rem 0.1rem 0.9rem;
+    margin: 0 -1.35rem;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .service-card {
+    scroll-snap-align: start;
+    flex: 0 0 78%;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .service-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+  }
+  .service-card h3 { font-size: 1rem; font-weight: 700; color: var(--ink); }
+  .service-card p { font-size: 0.82rem; line-height: 1.5; color: var(--ink-dim); }
+
+  .dots { display: flex; justify-content: center; gap: 6px; margin-top: 0.2rem; }
+  .dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(139, 143, 199, 0.35);
+    transition: background 0.2s ease, width 0.2s ease;
+  }
+  .dots span.active { background: var(--cyan); width: 18px; border-radius: 4px; box-shadow: 0 0 8px rgba(0, 240, 255, 0.6); }
+
+  /* ---------- Testimonials ---------- */
+  .testimonial-card {
+    padding: 1.1rem;
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+  .testimonial-card .stars { display: flex; gap: 3px; margin-bottom: 0.6rem; }
+  .testimonial-card p.quote { font-size: 0.86rem; line-height: 1.55; color: var(--ink); font-style: italic; }
+  .testimonial-card .who { margin-top: 0.7rem; font-size: 0.75rem; color: var(--ink-dim); font-weight: 600; }
+
+  /* ---------- Contact ---------- */
+  .contact-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.1rem; }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1rem;
+  }
+  .contact-item .ic {
+    width: 38px; height: 38px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 43, 214, 0.1);
+    border: 1px solid rgba(255, 43, 214, 0.35);
+    flex-shrink: 0;
+  }
+  .contact-item .txt-label { font-size: 0.7rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+  .contact-item .txt-value { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-top: 1px; }
+
+  .whatsapp-cta {
+    margin-top: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 1rem;
+    border-radius: 16px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #04030d;
+    background: linear-gradient(160deg, var(--green) 0%, #12b874 100%);
+    box-shadow: 0 5px 0 #0a7a4c, 0 8px 20px rgba(57, 255, 157, 0.35);
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .whatsapp-cta:active { transform: translateY(4px); box-shadow: 0 1px 0 #0a7a4c, 0 2px 8px rgba(57, 255, 157, 0.25); }
+
+  footer { padding: 1.6rem 1.35rem 2rem; text-align: center; }
+  footer p { font-size: 0.72rem; color: var(--ink-dim); line-height: 1.6; }
+  footer .brand { font-family: var(--font-display); color: var(--cyan); font-weight: 700; font-size: 0.85rem; }
+
+  /* ---------- Bottom iOS-style tab bar ---------- */
+  .tab-bar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.6rem 0.5rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(8, 6, 26, 0.75);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0, 240, 255, 0.18);
+  }
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    cursor: pointer;
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .tab-item svg { stroke: var(--ink-dim); transition: stroke 0.2s ease; }
+  .tab-item.active { color: var(--cyan); }
+  .tab-item.active svg { stroke: var(--cyan); filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.7)); }
+
+  .home-indicator {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(234, 246, 255, 0.35);
+    z-index: 41;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone-shell">
+    <div class="phone-notch"></div>
+
+    <div class="phone-scroll" id="scrollArea">
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="icons" aria-hidden="true">
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="6" width="2.5" height="5" fill="#eaf6ff"/><rect x="4.5" y="4" width="2.5" height="7" fill="#eaf6ff"/><rect x="9" y="2" width="2.5" height="9" fill="#eaf6ff"/><rect x="13.5" y="0" width="2.5" height="11" fill="#eaf6ff"/></svg>
+          <svg width="15" height="11" viewBox="0 0 16 12" fill="none"><path d="M8 10.5C8.6 10.5 9.1 10.3 9.4 9.9C9.1 9.5 8.6 9.3 8 9.3C7.4 9.3 6.9 9.5 6.6 9.9C6.9 10.3 7.4 10.5 8 10.5Z" fill="#eaf6ff"/><path d="M8 7.2C9.3 7.2 10.5 7.7 11.3 8.6L12.4 7.4C11.3 6.2 9.7 5.5 8 5.5C6.3 5.5 4.7 6.2 3.6 7.4L4.7 8.6C5.5 7.7 6.7 7.2 8 7.2Z" fill="#eaf6ff"/><path d="M8 3.8C10.2 3.8 12.2 4.7 13.7 6.1L14.8 4.9C13 3.1 10.6 2 8 2C5.4 2 3 3.1 1.2 4.9L2.3 6.1C3.8 4.7 5.8 3.8 8 3.8Z" fill="#eaf6ff"/></svg>
+          <svg width="24" height="11" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="20" height="11" rx="2.5" stroke="#eaf6ff"/><rect x="2" y="2" width="17" height="8" rx="1.2" fill="#39ff9d"/><rect x="21.5" y="4" width="1.8" height="4" rx="0.9" fill="#eaf6ff"/></svg>
+        </div>
+      </div>
+
+      <!-- HERO / INICIO -->
+      <section id="inicio" class="hero">
+        <div class="eyebrow"><span class="dot-live"></span> Agenda abierta esta semana</div>
+
+        <div class="avatar-wrap">
+          <div class="avatar-ring"></div>
+          <div class="avatar-circle">MOP</div>
+        </div>
+
+        <h1>Marta Ofelia Puerta</h1>
+        <p class="role">Psicóloga Clínica · Especialista en Autismo (TEA)</p>
+        <p class="tagline">Acompañando a cada mente única a florecer, con evidencia científica, calidez humana y respeto profundo por la neurodiversidad.</p>
+
+        <div class="cta-row">
+          <button class="btn-3d btn-3d-primary" onclick="scrollToSection('contacto')">
+            Agendar cita
+          </button>
+          <button class="btn-3d btn-3d-ghost" onclick="scrollToSection('sobre-mi')">
+            Conóceme
+          </button>
+        </div>
+
+        <div class="stats-row">
+          <div class="glass-panel stat-card">
+            <div class="num">25+</div>
+            <div class="label">Años de experiencia</div>
+          </div>
+          <div class="glass-panel stat-card">
+            <div class="num">500+</div>
+            <div class="label">Familias acompañadas</div>
+          </div>
+          <div class="glass-panel stat-card">
+            <div class="num">TEA</div>
+            <div class="label">Especialidad certificada</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOBRE MÍ -->
+      <section id="sobre-mi">
+        <div class="section-head">
+          <div class="section-kicker">Sobre mí</div>
+          <h2 class="section-title">Una vida dedicada a comprender mentes diversas</h2>
+        </div>
+        <div class="glass-panel about-card">
+          <p>Soy psicóloga colombiana con más de 25 años de trayectoria clínica, dedicados en gran parte a comprender y acompañar a personas en el espectro autista y a sus familias en Bogotá y toda Colombia.</p>
+          <p>Mi enfoque combina rigor clínico con una mirada neuroafirmativa: no busco "corregir" a nadie, busco entender, potenciar las fortalezas de cada persona y construir entornos donde pueda desarrollarse en sus propios términos.</p>
+          <div class="credential-list">
+            <div class="credential">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>
+              <span>Psicóloga clínica, Universidad Nacional de Colombia</span>
+            </div>
+            <div class="credential">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
+              <span>Especialización en Trastornos del Espectro Autista (TEA)</span>
+            </div>
+            <div class="credential">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span>Certificación en instrumentos de evaluación ADOS-2 y ADI-R</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ENFOQUE -->
+      <section id="enfoque">
+        <div class="glass-panel approach-card">
+          <svg class="infinity-icon" width="64" height="34" viewBox="0 0 64 34" fill="none">
+            <path d="M16 4C7.2 4 2 11 2 17s5.2 13 14 13c9.5 0 12.5-9 16-13" stroke="#ff2bd6" stroke-width="4" stroke-linecap="round"/>
+            <path d="M48 4c8.8 0 14 7 14 13s-5.2 13-14 13c-9.5 0-12.5-9-16-13" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <h2 class="section-title" style="font-size:1.15rem;">Enfoque neuroafirmativo</h2>
+          <p class="section-sub">Creo firmemente que la neurodiversidad es una forma más de ser humano. Mi trabajo parte del respeto por la manera única en que cada persona autista percibe, procesa y habita el mundo — celebrando sus fortalezas, no solo sus retos.</p>
+        </div>
+      </section>
+
+      <!-- SERVICIOS -->
+      <section id="servicios">
+        <div class="section-head">
+          <div class="section-kicker">Servicios</div>
+          <h2 class="section-title">Acompañamiento a la medida de cada mente</h2>
+          <p class="section-sub">Desliza para conocer todos los espacios de atención disponibles.</p>
+        </div>
+
+        <div class="carousel-track" id="servicesTrack">
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <h3>Evaluación y diagnóstico TEA</h3>
+            <p>Valoración integral del desarrollo con instrumentos estandarizados para un diagnóstico claro, riguroso y a tiempo.</p>
+          </div>
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff2bd6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.5l-1-.9a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+            </div>
+            <h3>Terapia individual</h3>
+            <p>Sesiones personalizadas para niños, adolescentes y adultos autistas, centradas siempre en sus fortalezas.</p>
+          </div>
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#39ff9d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Orientación a familias</h3>
+            <p>Herramientas prácticas y acompañamiento emocional para padres, madres y cuidadores en el día a día.</p>
+          </div>
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f4ff5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>
+            </div>
+            <h3>Inclusión escolar</h3>
+            <p>Asesoría a colegios y docentes para construir aulas verdaderamente inclusivas y ajustes razonables efectivos.</p>
+          </div>
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a742ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+            </div>
+            <h3>Talleres y capacitaciones</h3>
+            <p>Espacios formativos sobre neurodiversidad para instituciones, empresas y comunidades educativas.</p>
+          </div>
+          <div class="glass-panel service-card">
+            <div class="service-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+            </div>
+            <h3>Terapia para adultos TEA</h3>
+            <p>Acompañamiento a adultos autistas diagnosticados en la vida adulta, en su proceso de autoconocimiento.</p>
+          </div>
+        </div>
+        <div class="dots" id="servicesDots"></div>
+      </section>
+
+      <!-- TESTIMONIOS -->
+      <section id="testimonios">
+        <div class="section-head">
+          <div class="section-kicker">Testimonios</div>
+          <h2 class="section-title">Familias que han transformado su camino</h2>
+        </div>
+
+        <div class="carousel-track" id="testiTrack">
+          <div class="glass-panel testimonial-card">
+            <div class="stars">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+            </div>
+            <p class="quote">"Marta Ofelia nos ayudó a entender el diagnóstico de nuestro hijo sin miedo, con información clara y mucho acompañamiento. Cambió nuestra forma de ver la crianza."</p>
+            <p class="who">Madre de Samuel, 7 años · Bogotá</p>
+          </div>
+          <div class="glass-panel testimonial-card">
+            <div class="stars">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+            </div>
+            <p class="quote">"Como adulta diagnosticada tarde, encontré en sus sesiones el primer espacio donde no tuve que enmascarar quién soy. Profundamente humana y profesional."</p>
+            <p class="who">Paciente adulta · Medellín</p>
+          </div>
+          <div class="glass-panel testimonial-card">
+            <div class="stars">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#f4ff5b"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+            </div>
+            <p class="quote">"Su asesoría al colegio de mi hija cambió por completo la manera en que los docentes la acompañan. Se siente vista y respetada."</p>
+            <p class="who">Familia de Valentina, 10 años · Cali</p>
+          </div>
+        </div>
+        <div class="dots" id="testiDots"></div>
+      </section>
+
+      <!-- CONTACTO -->
+      <section id="contacto">
+        <div class="section-head">
+          <div class="section-kicker">Contacto</div>
+          <h2 class="section-title">Demos el primer paso juntas</h2>
+          <p class="section-sub">Escríbeme y con gusto resolveré tus dudas sobre el proceso de evaluación o terapia.</p>
+        </div>
+
+        <a href="https://wa.me/573000000000?text=Hola%20Marta%20Ofelia%2C%20quisiera%20agendar%20una%20cita" target="_blank" rel="noopener" class="whatsapp-cta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#04030d"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2Zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.35-.5.05-.99.24-3.35-.7-2.84-1.13-4.68-3.98-4.82-4.17-.14-.19-1.15-1.53-1.15-2.92s.72-2.07.98-2.36c.24-.26.53-.32.71-.32.18 0 .35.001.5.008.16.007.38-.06.6.46.24.56.8 1.94.87 2.08.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.28.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.38-.24.63-.14.26.1 1.63.77 1.91.91.29.14.48.21.55.33.07.12.07.68-.17 1.36Z"/></svg>
+          Escríbeme por WhatsApp
+        </a>
+
+        <div class="contact-list">
+          <div class="glass-panel contact-item">
+            <div class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff2bd6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </div>
+            <div>
+              <div class="txt-label">Correo</div>
+              <div class="txt-value">contacto@martaofeliapuerta.co</div>
+            </div>
+          </div>
+          <div class="glass-panel contact-item">
+            <div class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff2bd6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="txt-label">Consultorio</div>
+              <div class="txt-value">Bogotá, Colombia</div>
+            </div>
+          </div>
+          <div class="glass-panel contact-item">
+            <div class="ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff2bd6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div>
+              <div class="txt-label">Horario</div>
+              <div class="txt-value">Lunes a viernes · 8:00 a.m. – 5:00 p.m.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p class="brand">MARTA OFELIA PUERTA</p>
+        <p>Psicóloga clínica · Especialista en Autismo (TEA)<br />© 2026 · Bogotá, Colombia</p>
+      </footer>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-item active" data-section="inicio" onclick="scrollToSection('inicio')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/></svg>
+        Inicio
+      </button>
+      <button class="tab-item" data-section="sobre-mi" onclick="scrollToSection('sobre-mi')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        Perfil
+      </button>
+      <button class="tab-item" data-section="servicios" onclick="scrollToSection('servicios')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Servicios
+      </button>
+      <button class="tab-item" data-section="contacto" onclick="scrollToSection('contacto')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+        Contacto
+      </button>
+    </div>
+    <div class="home-indicator"></div>
+  </div>
+</div>
+
+<script>
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Bottom tab bar active state via IntersectionObserver
+  const tabItems = document.querySelectorAll('.tab-item');
+  const sections = ['inicio', 'sobre-mi', 'servicios', 'contacto'].map(id => document.getElementById(id));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tabItems.forEach(t => t.classList.toggle('active', t.dataset.section === id));
+      }
+    });
+  }, { root: document.getElementById('scrollArea'), threshold: 0.4 });
+  sections.forEach(s => observer.observe(s));
+
+  // Carousel dot indicators
+  function setupDots(trackId, dotsId) {
+    const track = document.getElementById(trackId);
+    const dotsWrap = document.getElementById(dotsId);
+    const cards = Array.from(track.children);
+    cards.forEach((_, i) => {
+      const dot = document.createElement('span');
+      if (i === 0) dot.classList.add('active');
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+    track.addEventListener('scroll', () => {
+      const index = Math.round(track.scrollLeft / (track.clientWidth * 0.78));
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }, { passive: true });
+  }
+  setupDots('servicesTrack', 'servicesDots');
+  setupDots('testiTrack', 'testiDots');
+</script>
+</body>
+</html>

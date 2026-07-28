@@ -5,9 +5,22 @@ Aplicación web interactiva para aprender inglés desde nivel A2 en adelante (A2
 ## Estructura del proyecto
 
 ```
-server/   API REST (Node.js + Express + SQLite + JWT)
-client/   Frontend (React + Vite + TypeScript + Tailwind CSS)
+server/                          API REST (Node.js + Express + SQLite + JWT)
+client/                          Frontend (React + Vite + TypeScript + Tailwind CSS)
+landing-marta-ofelia-puerta/     Landing de psicología (HTML estático, sin build)
 ```
+
+## Landing: Marta Ofelia Puerta — Psicóloga especialista en Autismo
+
+Página de una sola pieza (`landing-marta-ofelia-puerta/index.html`) en estética cyberpunk dentro de una carcasa estilo iPhone, reutilizando la paleta neón y los paneles de cristal ya definidos en `client/src/index.css`. Incluye barra de estado y tab bar inferior al estilo iOS, carrusel de servicios/testimonios con scroll-snap, y un botón de contacto por WhatsApp.
+
+Para verla, abre el archivo directamente en el navegador o sirve la carpeta con cualquier servidor estático:
+
+```bash
+npx serve landing-marta-ofelia-puerta
+```
+
+Antes de publicarla, reemplaza los datos de contacto de ejemplo (número de WhatsApp y correo) por los reales.
 
 ## Características
 
