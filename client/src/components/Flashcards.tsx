@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import type { VocabItem } from '../types';
 
 export default function Flashcards({ items }: { items: VocabItem[] }) {
@@ -17,42 +18,42 @@ export default function Flashcards({ items }: { items: VocabItem[] }) {
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <p className="text-xs font-display tracking-widest text-ink-dim">
-        CARD {index + 1}/{items.length} · {seen.size}/{items.length} VIEWED
+      <p className="text-[13px] text-text-tertiary tabular-nums">
+        {index + 1} / {items.length} · {seen.size} seen
       </p>
 
-      <button
-        onClick={() => setFlipped((f) => !f)}
-        className="card-flip glass-panel w-full max-w-md h-56 rounded-2xl flex flex-col items-center justify-center px-6 text-center cursor-pointer select-none border-neon-cyan/25 glow-cyan"
-        key={`${index}-${flipped}`}
-      >
-        {!flipped ? (
-          <p className="font-display text-2xl font-bold text-white">{item.word}</p>
-        ) : (
-          <div className="space-y-3">
-            <p className="font-display text-xl font-bold text-neon-magenta-glow">{item.translation}</p>
-            <p className="text-sm italic text-ink-dim">"{item.example}"</p>
-          </div>
-        )}
-        <p className="text-[10px] tracking-widest text-neon-cyan-glow mt-4 font-display">
-          TAP TO {flipped ? 'SEE THE WORD' : 'REVEAL MEANING'}
-        </p>
-      </button>
-
-      <div className="flex gap-3 w-full max-w-md">
-        <button
-          onClick={() => go(-1)}
-          disabled={index === 0}
-          className="btn-3d btn-3d-ghost flex-1 py-2.5 text-sm"
+      <div className="w-full" style={{ perspective: 1200 }}>
+        <motion.button
+          onClick={() => setFlipped((f) => !f)}
+          className="card w-full h-56 flex items-center justify-center px-6 text-center cursor-pointer select-none"
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformStyle: 'preserve-3d' }}
         >
-          ← PREV
+          <div style={{ backfaceVisibility: 'hidden', transform: flipped ? 'rotateY(180deg)' : undefined }}>
+            {!flipped ? (
+              <p className="text-2xl font-semibold">{item.word}</p>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-xl font-semibold text-accent">{item.translation}</p>
+                <p className="text-[14px] text-text-secondary italic">"{item.example}"</p>
+              </div>
+            )}
+          </div>
+        </motion.button>
+      </div>
+      <p className="text-[12px] text-text-tertiary -mt-3">Tap the card to {flipped ? 'see the word' : 'reveal meaning'}</p>
+
+      <div className="flex gap-2.5 w-full">
+        <button onClick={() => go(-1)} disabled={index === 0} className="btn btn-secondary flex-1 py-2.5">
+          ← Prev
         </button>
         <button
           onClick={() => go(1)}
           disabled={index === items.length - 1}
-          className="btn-3d btn-3d-primary flex-1 py-2.5 text-sm"
+          className="btn btn-primary flex-1 py-2.5"
         >
-          NEXT →
+          Next →
         </button>
       </div>
     </div>

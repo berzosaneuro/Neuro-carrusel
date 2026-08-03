@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { api, ApiError } from '../api/client';
 import type { Unit } from '../types';
@@ -46,10 +47,10 @@ export default function UnitPage() {
 
   if (error) {
     return (
-      <div className="min-h-full flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="text-neon-magenta-glow">{error}</p>
-        <Link to="/" className="btn-3d btn-3d-primary px-5 py-2.5 text-sm">
-          BACK TO DASHBOARD
+      <div className="min-h-dvh flex flex-col items-center justify-center gap-4 px-6 text-center">
+        <p className="text-danger">{error}</p>
+        <Link to="/" className="btn btn-primary px-5 py-2.5">
+          Back to dashboard
         </Link>
       </div>
     );
@@ -57,24 +58,28 @@ export default function UnitPage() {
 
   if (!unit) {
     return (
-      <div className="min-h-full flex items-center justify-center text-neon-cyan-glow font-display tracking-widest text-sm">
-        LOADING UNIT…
+      <div className="min-h-dvh flex items-center justify-center">
+        <motion.div
+          className="h-8 w-8 rounded-full border-2 border-border border-t-accent"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+        />
       </div>
     );
   }
 
   return (
-    <div className="min-h-full pb-10">
-      <header className="sticky top-0 z-30 px-5 pt-6 pb-4 bg-void-2/80 backdrop-blur border-b border-neon-cyan/15">
-        <Link to="/" className="text-xs font-display tracking-widest text-neon-cyan-glow">
-          ← DASHBOARD
+    <div className="min-h-dvh pb-12">
+      <header className="sticky top-0 z-30 px-5 pt-6 pb-4 bg-bg/90 backdrop-blur-md border-b border-border">
+        <Link to="/" className="text-[13px] text-text-secondary hover:text-text transition-colors">
+          ← Dashboard
         </Link>
-        <h1 className="font-display text-lg font-bold text-white mt-1">{unit.title}</h1>
-        <p className="text-sm text-ink-dim">{unit.subtitle}</p>
+        <h1 className="text-[16px] font-semibold mt-1">{unit.title}</h1>
+        <p className="text-[13px] text-text-secondary">{unit.subtitle}</p>
       </header>
 
       <nav className="px-5 pt-5">
-        <ol className="flex gap-2 flex-wrap">
+        <ol className="flex gap-1.5 flex-wrap">
           {STEPS.map((s, i) => {
             const active = s === step;
             const stepIndex = STEPS.indexOf(step);
@@ -84,15 +89,15 @@ export default function UnitPage() {
                 <button
                   onClick={() => !result && setStep(s)}
                   disabled={!!result}
-                  className={`text-xs font-display font-semibold tracking-wide px-3 py-1.5 rounded-full border transition disabled:cursor-default ${
+                  className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors disabled:cursor-default ${
                     active
-                      ? 'bg-gradient-to-r from-neon-cyan to-neon-purple border-transparent text-void'
+                      ? 'bg-accent border-accent text-white'
                       : isPast
-                        ? 'border-neon-green/50 text-neon-green-glow'
-                        : 'border-ink-dim/25 text-ink-dim'
+                        ? 'border-success/40 text-success bg-success-soft'
+                        : 'border-border text-text-tertiary'
                   }`}
                 >
-                  {i + 1}. {s.toUpperCase()}
+                  {s}
                 </button>
               </li>
             );
@@ -101,64 +106,71 @@ export default function UnitPage() {
       </nav>
 
       <main className="px-5 py-7">
-        {result ? (
-          <div className="text-center glass-panel rounded-2xl p-8 glow-magenta">
-            <p className="text-5xl mb-4">{result.passed ? '🎉' : '💪'}</p>
-            <h2 className="font-display text-xl font-bold text-white mb-2">
-              {result.passed ? 'UNIT COMPLETED!' : 'ALMOST THERE'}
-            </h2>
-            <p className="text-ink-dim mb-6">
-              You scored {result.score} out of {result.total}.{' '}
-              {result.passed ? 'The next unit is now unlocked.' : 'You need 60% to pass — try again!'}
-            </p>
-            <div className="flex flex-col gap-3">
-              {!result.passed && (
-                <button
-                  onClick={() => {
-                    setResult(null);
-                    setStep('Quiz');
-                  }}
-                  className="btn-3d btn-3d-ghost py-2.5 text-sm"
-                >
-                  RETRY QUIZ
+        <AnimatePresence mode="wait">
+          {result ? (
+            <motion.div
+              key="result"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center card p-8"
+            >
+              <p className="text-5xl mb-4">{result.passed ? '🎉' : '💪'}</p>
+              <h2 className="text-[18px] font-semibold mb-2">
+                {result.passed ? 'Unit completed!' : 'Almost there'}
+              </h2>
+              <p className="text-text-secondary mb-6 text-[14px]">
+                You scored {result.score} out of {result.total}.{' '}
+                {result.passed ? 'The next unit is now unlocked.' : 'You need 60% to pass — try again!'}
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {!result.passed && (
+                  <button
+                    onClick={() => {
+                      setResult(null);
+                      setStep('Quiz');
+                    }}
+                    className="btn btn-secondary py-2.5"
+                  >
+                    Retry quiz
+                  </button>
+                )}
+                <button onClick={() => navigate('/')} className="btn btn-primary py-2.5">
+                  Back to dashboard
                 </button>
-              )}
-              <button onClick={() => navigate('/')} className="btn-3d btn-3d-primary py-2.5 text-sm">
-                BACK TO DASHBOARD
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            {step === 'Vocabulary' && <Flashcards items={unit.vocabulary} />}
-            {step === 'Grammar' && (
-              <div className="space-y-4">
-                <h3 className="font-display text-lg font-bold text-white">{unit.grammar.title}</h3>
-                <p className="text-ink leading-relaxed">{unit.grammar.explanation}</p>
-                <div className="glass-panel rounded-2xl p-4 space-y-2">
-                  {unit.grammar.examples.map((ex, i) => (
-                    <p key={i} className="text-sm text-ink-dim">
-                      <span className="text-neon-cyan-glow">▸</span> {ex}
-                    </p>
-                  ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
+              {step === 'Vocabulary' && <Flashcards items={unit.vocabulary} />}
+              {step === 'Grammar' && (
+                <div className="space-y-4">
+                  <h3 className="text-[16px] font-semibold">{unit.grammar.title}</h3>
+                  <p className="text-text-secondary leading-relaxed text-[14px]">{unit.grammar.explanation}</p>
+                  <div className="card p-4 space-y-2">
+                    {unit.grammar.examples.map((ex, i) => (
+                      <p key={i} className="text-[13px] text-text-secondary">
+                        <span className="text-accent">•</span> {ex}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-            {step === 'Listening' && <DialogueReader dialogue={unit.dialogue} />}
-            {step === 'Quiz' && <Quiz questions={unit.quiz} onFinish={handleQuizFinish} />}
+              )}
+              {step === 'Listening' && <DialogueReader dialogue={unit.dialogue} />}
+              {step === 'Quiz' && <Quiz questions={unit.quiz} onFinish={handleQuizFinish} />}
 
-            {step !== 'Quiz' && (
-              <div className="flex justify-end mt-8">
-                <button
-                  onClick={() => setStep(STEPS[STEPS.indexOf(step) + 1])}
-                  className="btn-3d btn-3d-primary px-6 py-2.5 text-sm"
-                >
-                  CONTINUE →
-                </button>
-              </div>
-            )}
-          </>
-        )}
+              {step !== 'Quiz' && (
+                <div className="flex justify-end mt-8">
+                  <button
+                    onClick={() => setStep(STEPS[STEPS.indexOf(step) + 1])}
+                    className="btn btn-primary px-6 py-2.5"
+                  >
+                    Continue →
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );

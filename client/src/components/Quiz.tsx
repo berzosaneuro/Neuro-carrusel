@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { QuizQuestion } from '../types';
 
 function normalize(s: string) {
@@ -55,68 +56,77 @@ export default function Quiz({ questions, onFinish }: Props) {
   }
 
   return (
-    <div className="max-w-xl mx-auto">
-      <p className="text-xs font-display tracking-widest text-ink-dim mb-3">
-        QUESTION {index + 1}/{questions.length} · SCORE {score}
+    <div>
+      <p className="text-[13px] text-text-tertiary mb-3 tabular-nums">
+        Question {index + 1} of {questions.length} · Score {score}
       </p>
-      <div className="glass-panel rounded-2xl p-5 glow-cyan">
-        <p className="font-medium text-white mb-4">{question.question}</p>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          className="card p-5"
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -12 }}
+          transition={{ duration: 0.16 }}
+        >
+          <p className="font-medium mb-4">{question.question}</p>
 
-        {question.type === 'mc' ? (
-          <div className="space-y-2.5">
-            {question.options.map((opt, i) => {
-              let style = 'tile-3d';
-              if (revealed) {
-                if (i === question.answer) style = 'tile-3d tile-3d-correct';
-                else if (i === selected) style = 'tile-3d tile-3d-wrong';
-              } else if (i === selected) {
-                style = 'tile-3d tile-3d-selected';
-              }
-              return (
-                <button
-                  key={i}
-                  disabled={revealed}
-                  onClick={() => setSelected(i)}
-                  className={`w-full text-left px-4 py-2.5 ${style} disabled:cursor-default`}
-                >
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-        ) : (
-          <div>
-            <input
-              value={fillValue}
-              disabled={revealed}
-              onChange={(e) => setFillValue(e.target.value)}
-              placeholder="Type your answer…"
-              className="w-full rounded-xl border border-neon-cyan/25 bg-void-2/60 px-4 py-2.5 text-white placeholder:text-ink-dim focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_12px_rgba(0,240,255,0.4)] transition"
-            />
-            {revealed && (
-              <p className={`text-sm mt-2 font-semibold ${lastCorrect ? 'text-neon-green-glow' : 'text-neon-magenta-glow'}`}>
-                {lastCorrect ? 'Correct!' : `Correct answer: ${question.answer.replace('...', ' ... ')}`}
-              </p>
+          {question.type === 'mc' ? (
+            <div className="space-y-2">
+              {question.options.map((opt, i) => {
+                let style = 'option-tile';
+                if (revealed) {
+                  if (i === question.answer) style = 'option-tile option-tile-correct';
+                  else if (i === selected) style = 'option-tile option-tile-wrong';
+                } else if (i === selected) {
+                  style = 'option-tile option-tile-selected';
+                }
+                return (
+                  <button
+                    key={i}
+                    disabled={revealed}
+                    onClick={() => setSelected(i)}
+                    className={`w-full text-left px-4 py-2.5 ${style} disabled:cursor-default`}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div>
+              <input
+                value={fillValue}
+                disabled={revealed}
+                onChange={(e) => setFillValue(e.target.value)}
+                placeholder="Type your answer…"
+                className="field w-full px-4 py-2.5"
+              />
+              {revealed && (
+                <p className={`text-[13px] mt-2 font-medium ${lastCorrect ? 'text-success' : 'text-danger'}`}>
+                  {lastCorrect ? 'Correct!' : `Correct answer: ${question.answer.replace('...', ' ... ')}`}
+                </p>
+              )}
+            </div>
+          )}
+
+          <div className="mt-5 flex justify-end">
+            {!revealed ? (
+              <button
+                onClick={check}
+                disabled={question.type === 'mc' ? selected === null : fillValue.trim() === ''}
+                className="btn btn-primary px-6 py-2.5"
+              >
+                Check
+              </button>
+            ) : (
+              <button onClick={next} className="btn btn-primary px-6 py-2.5">
+                {isLast ? 'Finish' : 'Next →'}
+              </button>
             )}
           </div>
-        )}
-
-        <div className="mt-6 flex justify-end gap-3">
-          {!revealed ? (
-            <button
-              onClick={check}
-              disabled={question.type === 'mc' ? selected === null : fillValue.trim() === ''}
-              className="btn-3d btn-3d-primary px-6 py-2.5 text-sm"
-            >
-              CHECK
-            </button>
-          ) : (
-            <button onClick={next} className="btn-3d btn-3d-magenta px-6 py-2.5 text-sm">
-              {isLast ? 'FINISH QUIZ' : 'NEXT →'}
-            </button>
-          )}
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

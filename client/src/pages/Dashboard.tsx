@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 import type { Level, UnitStatus } from '../types';
@@ -28,61 +29,76 @@ export default function Dashboard() {
   const overallPct = totalUnits > 0 ? Math.round((completedUnits / totalUnits) * 100) : 0;
 
   return (
-    <div className="min-h-full pb-10">
-      <header className="sticky top-0 z-30 px-5 pt-6 pb-4 bg-void-2/80 backdrop-blur border-b border-neon-cyan/15">
+    <div className="min-h-dvh pb-12">
+      <header className="sticky top-0 z-30 px-5 pt-6 pb-5 bg-bg/90 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-display text-[10px] tracking-[0.3em] text-neon-cyan-glow">ENGLISH OS</p>
-            <p className="text-sm text-ink-dim">A2 → C1</p>
+            <h1 className="text-[15px] font-semibold tracking-tight">English</h1>
+            <p className="text-[13px] text-text-tertiary">A2 → C1</p>
           </div>
-          <div className="text-right">
-            <p className="text-sm font-bold text-neon-yellow" style={{ textShadow: '0 0 10px rgba(244,255,91,0.6)' }}>
-              🔥 {user?.currentStreak ?? 0}
-            </p>
-            <p className="text-[10px] text-ink-dim">best {user?.bestStreak ?? 0}</p>
-          </div>
+          {user && (user.currentStreak > 0 || user.bestStreak > 0) && (
+            <div className="text-right">
+              <p className="text-[15px] font-semibold tabular-nums">🔥 {user.currentStreak}</p>
+              <p className="text-[11px] text-text-tertiary">best {user.bestStreak}</p>
+            </div>
+          )}
         </div>
 
         <div className="mt-4">
           <div className="flex items-center justify-between mb-1.5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-ink-dim">Overall progress</p>
-            <span className="text-xs text-neon-cyan-glow font-semibold">
+            <p className="text-[12px] font-medium text-text-secondary">Progress</p>
+            <span className="text-[12px] font-medium text-text-secondary tabular-nums">
               {completedUnits}/{totalUnits}
             </span>
           </div>
-          <div className="h-2.5 w-full rounded-full bg-black/50 overflow-hidden border border-neon-cyan/20">
-            <div
-              className="h-full bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-magenta transition-all"
-              style={{ width: `${overallPct}%`, boxShadow: '0 0 10px rgba(0,240,255,0.6)' }}
+          <div className="h-1.5 w-full progress-track">
+            <motion.div
+              className="h-full progress-fill"
+              initial={{ width: 0 }}
+              animate={{ width: `${overallPct}%` }}
             />
           </div>
         </div>
       </header>
 
       <main className="px-5 pt-6">
-        {loading && <p className="text-ink-dim font-display tracking-widest text-sm">LOADING COURSE…</p>}
-        {error && <p className="text-neon-magenta-glow">{error}</p>}
+        {loading && (
+          <div className="space-y-3">
+            {[0, 1].map((i) => (
+              <div key={i} className="h-24 rounded-2xl bg-surface animate-pulse" />
+            ))}
+          </div>
+        )}
+        {error && <p className="text-danger text-sm">{error}</p>}
 
         {!loading &&
           !error &&
-          levels.map((level) => {
+          levels.map((level, levelIndex) => {
             const levelUnits = units.filter((u) => u.level === level.id);
             const levelCompleted = levelUnits.filter((u) => u.completed).length;
             return (
-              <section key={level.id} className="mb-9">
-                <div className="mb-3">
-                  <h2 className="font-display text-lg font-bold text-white">{level.title}</h2>
-                  <p className="text-sm text-ink-dim">{level.description}</p>
-                  <p className="text-xs text-neon-cyan-glow mt-1">
-                    {levelCompleted}/{levelUnits.length} completed
-                  </p>
+              <motion.section
+                key={level.id}
+                className="mb-8"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: levelIndex * 0.05, duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="mb-3 flex items-baseline justify-between">
+                  <div>
+                    <h2 className="text-[15px] font-semibold">{level.title}</h2>
+                    <p className="text-[13px] text-text-secondary mt-0.5">{level.description}</p>
+                  </div>
+                  <span className="text-[12px] text-text-tertiary tabular-nums shrink-0 ml-3">
+                    {levelCompleted}/{levelUnits.length}
+                  </span>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5">
                   {levelUnits.map((unit) => (
                     <UnitCard key={unit.id} unit={unit} />
                   ))}
                 </div>
-              </section>
+              </motion.section>
             );
           })}
       </main>
