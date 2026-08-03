@@ -5,7 +5,7 @@ import type { Level, UnitStatus } from '../types';
 import UnitCard from '../components/UnitCard';
 
 export default function Dashboard() {
-  const { user, token, logout } = useAuth();
+  const { user, token } = useAuth();
   const [levels, setLevels] = useState<Level[]>([]);
   const [units, setUnits] = useState<UnitStatus[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,18 +33,13 @@ export default function Dashboard() {
         <div className="flex items-center justify-between">
           <div>
             <p className="font-display text-[10px] tracking-[0.3em] text-neon-cyan-glow">ENGLISH OS</p>
-            <p className="text-sm text-ink-dim">Hi, {user?.name} 👋</p>
+            <p className="text-sm text-ink-dim">A2 → C1</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <p className="text-sm font-bold text-neon-yellow" style={{ textShadow: '0 0 10px rgba(244,255,91,0.6)' }}>
-                🔥 {user?.currentStreak ?? 0}
-              </p>
-              <p className="text-[10px] text-ink-dim">best {user?.bestStreak ?? 0}</p>
-            </div>
-            <button onClick={logout} className="btn-3d btn-3d-ghost text-xs px-3 py-2">
-              LOG OUT
-            </button>
+          <div className="text-right">
+            <p className="text-sm font-bold text-neon-yellow" style={{ textShadow: '0 0 10px rgba(244,255,91,0.6)' }}>
+              🔥 {user?.currentStreak ?? 0}
+            </p>
+            <p className="text-[10px] text-ink-dim">best {user?.bestStreak ?? 0}</p>
           </div>
         </div>
 

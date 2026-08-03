@@ -6,10 +6,9 @@ interface AuthContextValue {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+  error: string | null;
   refreshUser: () => Promise<void>;
+  retry: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -20,41 +19,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (!token) {
-      setLoading(false);
-      return;
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    async function ensureSession() {
+      try {
+        if (token) {
+          const { user } = await api.me(token);
+          if (!cancelled) setUser(user);
+          return;
+        }
+        const created = await api.createAnonymousSession();
+        if (cancelled) return;
+        localStorage.setItem(TOKEN_KEY, created.token);
+        setToken(created.token);
+        setUser(created.user);
+      } catch {
+        if (cancelled) return;
+        if (token) {
+          // Stored token is invalid/expired: drop it and let the effect
+          // re-run to create a fresh anonymous session.
+          localStorage.removeItem(TOKEN_KEY);
+          setToken(null);
+        } else {
+          setError('Could not connect. Please check your connection and try again.');
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
-    api
-      .me(token)
-      .then(({ user }) => setUser(user))
-      .catch(() => {
-        localStorage.removeItem(TOKEN_KEY);
-        setToken(null);
-      })
-      .finally(() => setLoading(false));
-  }, [token]);
 
-  async function login(email: string, password: string) {
-    const { token, user } = await api.login(email, password);
-    localStorage.setItem(TOKEN_KEY, token);
-    setToken(token);
-    setUser(user);
-  }
-
-  async function register(name: string, email: string, password: string) {
-    const { token, user } = await api.register(name, email, password);
-    localStorage.setItem(TOKEN_KEY, token);
-    setToken(token);
-    setUser(user);
-  }
-
-  function logout() {
-    localStorage.removeItem(TOKEN_KEY);
-    setToken(null);
-    setUser(null);
-  }
+    ensureSession();
+    return () => {
+      cancelled = true;
+    };
+  }, [token, attempt]);
 
   async function refreshUser() {
     if (!token) return;
@@ -62,8 +66,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(user);
   }
 
+  function retry() {
+    setAttempt((a) => a + 1);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, token, loading, error, refreshUser, retry }}>
       {children}
     </AuthContext.Provider>
   );

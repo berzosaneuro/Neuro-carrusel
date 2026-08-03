@@ -34,15 +34,9 @@ async function request<T>(
 }
 
 export const api = {
-  register: (name: string, email: string, password: string, ) =>
-    request<{ token: string; user: import('../types').User }>('/auth/register', {
+  createAnonymousSession: () =>
+    request<{ token: string; user: import('../types').User }>('/auth/anonymous', {
       method: 'POST',
-      body: { name, email, password },
-    }),
-  login: (email: string, password: string) =>
-    request<{ token: string; user: import('../types').User }>('/auth/login', {
-      method: 'POST',
-      body: { email, password },
     }),
   me: (token: string) =>
     request<{ user: import('../types').User }>('/auth/me', { token }),

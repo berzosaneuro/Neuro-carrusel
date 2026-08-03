@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import { db } from '../db/init.js';
 import { signToken, requireAuth } from '../middleware/auth.js';
@@ -15,47 +16,20 @@ function publicUser(user) {
   };
 }
 
-authRouter.post('/register', async (req, res) => {
-  const { name, email, password } = req.body || {};
+// No login screen: each new visitor silently gets an anonymous account so
+// progress can still be saved server-side, keyed by the token in localStorage.
+authRouter.post('/anonymous', async (req, res) => {
+  const id = crypto.randomUUID();
+  const email = `anon-${id}@device.local`;
+  const passwordHash = await bcrypt.hash(id, 10);
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'Name, email and password are required' });
-  }
-  if (typeof password !== 'string' || password.length < 6) {
-    return res.status(400).json({ error: 'Password must be at least 6 characters' });
-  }
-
-  const normalizedEmail = String(email).trim().toLowerCase();
-  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(normalizedEmail);
-  if (existing) {
-    return res.status(409).json({ error: 'An account with this email already exists' });
-  }
-
-  const passwordHash = await bcrypt.hash(password, 10);
   const info = db
     .prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)')
-    .run(name.trim(), normalizedEmail, passwordHash);
+    .run('Learner', email, passwordHash);
 
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(info.lastInsertRowid);
   const token = signToken(user.id);
   res.status(201).json({ token, user: publicUser(user) });
-});
-
-authRouter.post('/login', async (req, res) => {
-  const { email, password } = req.body || {};
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password are required' });
-  }
-
-  const normalizedEmail = String(email).trim().toLowerCase();
-  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(normalizedEmail);
-  if (!user) return res.status(401).json({ error: 'Invalid email or password' });
-
-  const valid = await bcrypt.compare(password, user.password_hash);
-  if (!valid) return res.status(401).json({ error: 'Invalid email or password' });
-
-  const token = signToken(user.id);
-  res.json({ token, user: publicUser(user) });
 });
 
 authRouter.get('/me', requireAuth, (req, res) => {
