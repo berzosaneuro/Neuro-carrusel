@@ -564,6 +564,47 @@
   .testimonial-card p.quote { font-size: 0.86rem; line-height: 1.55; color: var(--ink); font-style: italic; }
   .testimonial-card .who { margin-top: 0.7rem; font-size: 0.75rem; color: var(--ink-dim); font-weight: 600; }
 
+  /* ---------- Agenda / booking ---------- */
+  .slots-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .slot-day {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-dim); margin: 0.8rem 0 0.4rem;
+  }
+  .slot-day:first-child { margin-top: 0; }
+  .slot-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.8rem 1rem; cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .slot-item:hover, .slot-item:focus-visible { border-color: rgba(0, 240, 255, 0.5); }
+  .slot-item .time { font-family: var(--font-display); font-weight: 700; color: var(--cyan); }
+  .slot-item .pick { font-size: 0.75rem; color: var(--ink-dim); }
+  .slot-item.selected { border-color: var(--cyan); box-shadow: 0 0 14px rgba(0, 240, 255, 0.35); }
+
+  .booking-form { padding: 1.1rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.2rem; }
+  .booking-form[hidden] { display: none; }
+  .booking-selected { font-size: 0.85rem; color: var(--cyan); font-weight: 700; margin-bottom: 0.3rem; }
+  .field-label {
+    display: block;
+    font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-top: 0.5rem;
+  }
+  .field-input {
+    display: block;
+    width: 100%;
+    font-family: var(--font-body); font-size: 0.95rem; color: var(--ink);
+    background: rgba(5, 3, 24, 0.5); border: 1px solid rgba(139, 143, 199, 0.3);
+    border-radius: 10px; padding: 0.6rem 0.75rem; outline: none; resize: vertical;
+    margin-top: 0.3rem;
+  }
+  .field-input:focus { border-color: var(--cyan); }
+  .booking-status {
+    margin-top: 1rem; font-size: 0.85rem; text-align: center;
+    padding: 0.7rem; border-radius: 10px;
+  }
+  .booking-status.ok { color: var(--green); background: rgba(57, 255, 157, 0.1); border: 1px solid rgba(57, 255, 157, 0.3); }
+  .booking-status.err { color: var(--magenta); background: rgba(255, 43, 214, 0.1); border: 1px solid rgba(255, 43, 214, 0.3); }
+
   /* ---------- Contact ---------- */
   .contact-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.1rem; }
   .contact-item {
@@ -708,7 +749,7 @@
           <p class="tagline">Acompañando a cada mente única a florecer, con evidencia científica, calidez humana y respeto profundo por la neurodiversidad.</p>
 
           <div class="cta-row">
-            <button class="btn-3d btn-3d-primary" onclick="scrollToSection('contacto')">
+            <button class="btn-3d btn-3d-primary" onclick="scrollToSection('agenda')">
               <span>Agendar cita</span>
             </button>
             <button class="btn-3d btn-3d-ghost" onclick="scrollToSection('sobre-mi')">
@@ -871,6 +912,35 @@
         <div class="dots" id="testiDots"></div>
       </section>
 
+      <!-- AGENDA -->
+      <section id="agenda">
+        <div class="section-head">
+          <div class="section-kicker">Agenda</div>
+          <h2 class="section-title">Reserva tu cita</h2>
+          <p class="section-sub">Elige un horario disponible y confirma tus datos. Te esperamos.</p>
+        </div>
+
+        <div id="slotsList" class="slots-list">
+          <p class="text-dim" style="font-size: 0.85rem;">Cargando horarios disponibles…</p>
+        </div>
+
+        <div id="bookingForm" class="glass-panel booking-form" hidden>
+          <p class="booking-selected" id="bookingSelectedLabel"></p>
+          <label class="field-label" for="bookName">Nombre</label>
+          <input class="field-input" id="bookName" type="text" placeholder="Tu nombre" />
+          <label class="field-label" for="bookContact">Teléfono o correo</label>
+          <input class="field-input" id="bookContact" type="text" placeholder="WhatsApp o email" />
+          <label class="field-label" for="bookNotes">Notas (opcional)</label>
+          <textarea class="field-input" id="bookNotes" rows="2" placeholder="Cuéntame brevemente el motivo de la consulta"></textarea>
+          <div class="cta-row" style="margin-top: 1rem;">
+            <button class="btn-3d btn-3d-primary" id="confirmBookingBtn"><span>Confirmar cita</span></button>
+            <button class="btn-3d btn-3d-ghost" id="cancelBookingBtn"><span>Cancelar</span></button>
+          </div>
+        </div>
+
+        <p id="bookingStatus" class="booking-status" hidden></p>
+      </section>
+
       <!-- CONTACTO -->
       <section id="contacto">
         <div class="section-head">
@@ -914,6 +984,18 @@
               <div class="txt-value">Lunes a viernes · 8:00 a.m. – 5:00 p.m.</div>
             </div>
           </div>
+        </div>
+
+        <div class="glass-panel about-card" style="margin-top: 1.1rem;">
+          <p style="margin-bottom: 0.4rem;">¿Prefieres escribir un mensaje? Te respondo por aquí.</p>
+          <label class="field-label" for="leadName">Nombre</label>
+          <input class="field-input" id="leadName" type="text" placeholder="Tu nombre" />
+          <label class="field-label" for="leadContact">Teléfono o correo</label>
+          <input class="field-input" id="leadContact" type="text" placeholder="WhatsApp o email" />
+          <label class="field-label" for="leadMessage">Mensaje</label>
+          <textarea class="field-input" id="leadMessage" rows="3" placeholder="¿En qué puedo ayudarte?"></textarea>
+          <button class="btn-3d btn-3d-primary" id="sendLeadBtn" style="margin-top: 0.9rem; width: 100%;"><span>Enviar mensaje</span></button>
+          <p id="leadStatus" class="booking-status" hidden></p>
         </div>
       </section>
 
@@ -1048,6 +1130,142 @@
     tick();
   }
   initParticleNetwork(document.getElementById('heroCanvas'));
+
+  // Contact form (leads)
+  const leadBtn = document.getElementById('sendLeadBtn');
+  if (leadBtn) {
+    leadBtn.addEventListener('click', async () => {
+      const name = document.getElementById('leadName').value.trim();
+      const contact = document.getElementById('leadContact').value.trim();
+      const message = document.getElementById('leadMessage').value.trim();
+      const statusEl = document.getElementById('leadStatus');
+      if (!name || !contact) {
+        statusEl.hidden = false;
+        statusEl.className = 'booking-status err';
+        statusEl.textContent = 'Por favor completa tu nombre y un dato de contacto.';
+        return;
+      }
+      leadBtn.disabled = true;
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, contact, message }),
+        });
+        if (!res.ok) throw new Error();
+        statusEl.hidden = false;
+        statusEl.className = 'booking-status ok';
+        statusEl.textContent = 'Mensaje enviado. Te responderé pronto.';
+        document.getElementById('leadName').value = '';
+        document.getElementById('leadContact').value = '';
+        document.getElementById('leadMessage').value = '';
+      } catch {
+        statusEl.hidden = false;
+        statusEl.className = 'booking-status err';
+        statusEl.textContent = 'No se pudo enviar. Intenta de nuevo o escríbeme por WhatsApp.';
+      } finally {
+        leadBtn.disabled = false;
+      }
+    });
+  }
+
+  // Agenda / booking
+  let selectedSlotId = null;
+  const slotsListEl = document.getElementById('slotsList');
+  const bookingFormEl = document.getElementById('bookingForm');
+  const bookingSelectedLabel = document.getElementById('bookingSelectedLabel');
+  const bookingStatusEl = document.getElementById('bookingStatus');
+
+  const DATE_FMT = new Intl.DateTimeFormat('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+  const TIME_FMT = new Intl.DateTimeFormat('es-CO', { hour: 'numeric', minute: '2-digit' });
+
+  async function loadSlots() {
+    if (!slotsListEl) return;
+    try {
+      const res = await fetch('/api/availability');
+      const data = await res.json();
+      const slots = data.slots || [];
+      if (slots.length === 0) {
+        slotsListEl.innerHTML = '<p class="text-dim" style="font-size: 0.85rem;">No hay horarios disponibles por ahora. Escríbeme por WhatsApp y coordinamos.</p>';
+        return;
+      }
+      let html = '';
+      let lastDay = '';
+      slots.forEach((slot) => {
+        const start = new Date(slot.start_at);
+        const dayLabel = DATE_FMT.format(start);
+        if (dayLabel !== lastDay) {
+          html += `<div class="slot-day">${dayLabel}</div>`;
+          lastDay = dayLabel;
+        }
+        html += `<div class="glass-panel slot-item" data-slot-id="${slot.id}" data-label="${dayLabel} · ${TIME_FMT.format(start)}">
+          <span class="time">${TIME_FMT.format(start)}</span>
+          <span class="pick">Elegir →</span>
+        </div>`;
+      });
+      slotsListEl.innerHTML = html;
+      slotsListEl.querySelectorAll('.slot-item').forEach((item) => {
+        item.addEventListener('click', () => {
+          slotsListEl.querySelectorAll('.slot-item').forEach((i) => i.classList.remove('selected'));
+          item.classList.add('selected');
+          selectedSlotId = item.dataset.slotId;
+          bookingSelectedLabel.textContent = `Horario elegido: ${item.dataset.label}`;
+          bookingFormEl.hidden = false;
+          bookingFormEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      });
+    } catch {
+      slotsListEl.innerHTML = '<p class="text-dim" style="font-size: 0.85rem;">No se pudo cargar la disponibilidad. Escríbeme por WhatsApp.</p>';
+    }
+  }
+  loadSlots();
+
+  const confirmBtn = document.getElementById('confirmBookingBtn');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', async () => {
+      const name = document.getElementById('bookName').value.trim();
+      const contact = document.getElementById('bookContact').value.trim();
+      const notes = document.getElementById('bookNotes').value.trim();
+      if (!selectedSlotId || !name || !contact) {
+        bookingStatusEl.hidden = false;
+        bookingStatusEl.className = 'booking-status err';
+        bookingStatusEl.textContent = 'Completa tu nombre y contacto para confirmar.';
+        return;
+      }
+      confirmBtn.disabled = true;
+      try {
+        const res = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slotId: selectedSlotId, name, contact, notes }),
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'No se pudo agendar');
+        }
+        bookingStatusEl.hidden = false;
+        bookingStatusEl.className = 'booking-status ok';
+        bookingStatusEl.textContent = 'Cita confirmada. Te esperamos.';
+        bookingFormEl.hidden = true;
+        loadSlots();
+      } catch (err) {
+        bookingStatusEl.hidden = false;
+        bookingStatusEl.className = 'booking-status err';
+        bookingStatusEl.textContent = err.message || 'No se pudo agendar. Intenta con otro horario.';
+      } finally {
+        confirmBtn.disabled = false;
+      }
+    });
+  }
+
+  const cancelBtn = document.getElementById('cancelBookingBtn');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      bookingFormEl.hidden = true;
+      selectedSlotId = null;
+      slotsListEl.querySelectorAll('.slot-item').forEach((i) => i.classList.remove('selected'));
+    });
+  }
 </script>
 </body>
 </html>

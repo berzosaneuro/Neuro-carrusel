@@ -14,13 +14,31 @@ landing-marta-ofelia-puerta/     Landing de psicología (HTML estático, sin bui
 
 Página de una sola pieza (`landing-marta-ofelia-puerta/index.html`) en estética cyberpunk dentro de una carcasa estilo iPhone, reutilizando la paleta neón y los paneles de cristal ya definidos en `client/src/index.css`. Incluye barra de estado y tab bar inferior al estilo iOS, carrusel de servicios/testimonios con scroll-snap, y un botón de contacto por WhatsApp.
 
-Para verla, abre el archivo directamente en el navegador o sirve la carpeta con cualquier servidor estático:
-
-```bash
-npx serve landing-marta-ofelia-puerta
-```
+Desplegada en: **https://marta-ofelia-puerta.vercel.app**
 
 Antes de publicarla, reemplaza los datos de contacto de ejemplo (número de WhatsApp y correo) por los reales.
+
+### Backend (formulario, agenda de citas y panel de administración)
+
+`landing-marta-ofelia-puerta/api/` son funciones serverless de Vercel (Node.js, sin framework) respaldadas por Postgres (`@vercel/postgres`):
+
+- `POST /api/contact` — guarda un mensaje del formulario de contacto.
+- `GET /api/availability` — lista los horarios libres futuros (público).
+- `POST /api/appointments` — reserva una cita (público, con protección contra doble reserva).
+- `POST /api/admin/login` / `POST /api/admin/logout` — sesión de administración (cookie firmada, sin JWT externo).
+- `GET /api/admin/leads`, `GET|POST|DELETE /api/admin/slots`, `GET|DELETE /api/admin/appointments` — protegidos, requieren sesión.
+
+Panel de administración: `landing-marta-ofelia-puerta/admin/index.html` → **https://marta-ofelia-puerta.vercel.app/admin/** (login con `ADMIN_PASSWORD`). Desde ahí Marta puede ver los mensajes recibidos, gestionar las citas y añadir horarios disponibles.
+
+**Puesta en marcha (una sola vez, requiere el dashboard de Vercel):**
+
+1. En el proyecto `marta-ofelia-puerta` en Vercel → pestaña **Storage** → *Create Database* → **Postgres** → *Connect to Project* (plan gratuito). Esto inyecta automáticamente `POSTGRES_URL` y variables relacionadas.
+2. En **Settings → Environment Variables**, añade para *Production*:
+   - `ADMIN_PASSWORD` — contraseña del panel de administración.
+   - `SESSION_SECRET` — cadena aleatoria larga usada para firmar la cookie de sesión.
+3. Redeploy del proyecto para que las funciones recojan las nuevas variables.
+
+Las tablas (`leads`, `availability_slots`, `appointments`) se crean automáticamente en el primer request (`CREATE TABLE IF NOT EXISTS`), no hace falta migrar nada a mano.
 
 ## Características
 

@@ -1,0 +1,8 @@
+{
+  "name": "marta-ofelia-puerta",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0"
+  }
+}
