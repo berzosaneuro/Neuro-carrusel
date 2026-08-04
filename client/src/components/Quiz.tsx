@@ -57,22 +57,22 @@ export default function Quiz({ questions, onFinish }: Props) {
 
   return (
     <div>
-      <p className="text-[13px] text-text-tertiary mb-3 tabular-nums">
+      <p className="text-[14px] text-text-tertiary mb-3 tabular-nums">
         Pregunta {index + 1} de {questions.length} · Puntuación {score}
       </p>
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
           className="card p-5"
-          initial={{ opacity: 0, x: 12 }}
+          initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -12 }}
-          transition={{ duration: 0.16 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="font-medium mb-4">{question.question}</p>
+          <p className="font-semibold text-[16px] mb-4">{question.question}</p>
 
           {question.type === 'mc' ? (
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {question.options.map((opt, i) => {
                 let style = 'option-tile';
                 if (revealed) {
@@ -82,14 +82,15 @@ export default function Quiz({ questions, onFinish }: Props) {
                   style = 'option-tile option-tile-selected';
                 }
                 return (
-                  <button
+                  <motion.button
                     key={i}
                     disabled={revealed}
                     onClick={() => setSelected(i)}
-                    className={`w-full text-left px-4 py-2.5 ${style} disabled:cursor-default`}
+                    whileTap={!revealed ? { scale: 0.97 } : undefined}
+                    className={`w-full text-left px-4 py-3 ${style} disabled:cursor-default`}
                   >
                     {opt}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
@@ -100,12 +101,16 @@ export default function Quiz({ questions, onFinish }: Props) {
                 disabled={revealed}
                 onChange={(e) => setFillValue(e.target.value)}
                 placeholder="Escribe tu respuesta…"
-                className="field w-full px-4 py-2.5"
+                className="field w-full px-4 py-3"
               />
               {revealed && (
-                <p className={`text-[13px] mt-2 font-medium ${lastCorrect ? 'text-success' : 'text-danger'}`}>
+                <motion.p
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`text-[14px] mt-2 font-medium ${lastCorrect ? 'text-success' : 'text-danger'}`}
+                >
                   {lastCorrect ? '¡Correcto!' : `Respuesta correcta: ${question.answer.replace('...', ' ... ')}`}
-                </p>
+                </motion.p>
               )}
             </div>
           )}
@@ -115,12 +120,12 @@ export default function Quiz({ questions, onFinish }: Props) {
               <button
                 onClick={check}
                 disabled={question.type === 'mc' ? selected === null : fillValue.trim() === ''}
-                className="btn btn-primary px-6 py-2.5"
+                className="btn btn-primary px-6 py-3"
               >
                 Comprobar
               </button>
             ) : (
-              <button onClick={next} className="btn btn-primary px-6 py-2.5">
+              <button onClick={next} className="btn btn-primary px-6 py-3">
                 {isLast ? 'Finalizar' : 'Siguiente →'}
               </button>
             )}

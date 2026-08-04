@@ -18,31 +18,32 @@ export default function Flashcards({ items }: { items: VocabItem[] }) {
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <p className="text-[13px] text-text-tertiary tabular-nums">
+      <p className="text-[14px] text-text-tertiary tabular-nums">
         {index + 1} / {items.length} · {seen.size} {seen.size === 1 ? 'vista' : 'vistas'}
       </p>
 
       <div className="w-full" style={{ perspective: 1200 }}>
         <motion.button
           onClick={() => setFlipped((f) => !f)}
+          whileTap={{ scale: 0.97 }}
           className="card w-full h-56 flex items-center justify-center px-6 text-center cursor-pointer select-none"
           animate={{ rotateY: flipped ? 180 : 0 }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: 'spring', stiffness: 260, damping: 24 }}
           style={{ transformStyle: 'preserve-3d' }}
         >
           <div style={{ backfaceVisibility: 'hidden', transform: flipped ? 'rotateY(180deg)' : undefined }}>
             {!flipped ? (
-              <p className="text-2xl font-semibold">{item.word}</p>
+              <p className="text-3xl font-bold">{item.word}</p>
             ) : (
               <div className="space-y-3">
-                <p className="text-xl font-semibold text-accent">{item.translation}</p>
-                <p className="text-[14px] text-text-secondary italic">"{item.example}"</p>
+                <p className="text-2xl font-bold text-accent">{item.translation}</p>
+                <p className="text-[15px] text-text-secondary italic">"{item.example}"</p>
               </div>
             )}
           </div>
         </motion.button>
       </div>
-      <p className="text-[12px] text-text-tertiary -mt-3">
+      <p className="text-[13px] text-text-tertiary -mt-3">
         Toca la tarjeta para {flipped ? 'ver la palabra' : 'revelar el significado'}
       </p>
 
