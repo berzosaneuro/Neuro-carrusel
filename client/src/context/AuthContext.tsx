@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           localStorage.removeItem(TOKEN_KEY);
           setToken(null);
         } else {
-          setError('Could not connect. Please check your connection and try again.');
+          setError('No se pudo conectar. Comprueba tu conexión e inténtalo de nuevo.');
         }
       } finally {
         if (!cancelled) setLoading(false);

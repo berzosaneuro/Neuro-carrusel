@@ -58,7 +58,7 @@ export default function Quiz({ questions, onFinish }: Props) {
   return (
     <div>
       <p className="text-[13px] text-text-tertiary mb-3 tabular-nums">
-        Question {index + 1} of {questions.length} · Score {score}
+        Pregunta {index + 1} de {questions.length} · Puntuación {score}
       </p>
       <AnimatePresence mode="wait">
         <motion.div
@@ -99,12 +99,12 @@ export default function Quiz({ questions, onFinish }: Props) {
                 value={fillValue}
                 disabled={revealed}
                 onChange={(e) => setFillValue(e.target.value)}
-                placeholder="Type your answer…"
+                placeholder="Escribe tu respuesta…"
                 className="field w-full px-4 py-2.5"
               />
               {revealed && (
                 <p className={`text-[13px] mt-2 font-medium ${lastCorrect ? 'text-success' : 'text-danger'}`}>
-                  {lastCorrect ? 'Correct!' : `Correct answer: ${question.answer.replace('...', ' ... ')}`}
+                  {lastCorrect ? '¡Correcto!' : `Respuesta correcta: ${question.answer.replace('...', ' ... ')}`}
                 </p>
               )}
             </div>
@@ -117,11 +117,11 @@ export default function Quiz({ questions, onFinish }: Props) {
                 disabled={question.type === 'mc' ? selected === null : fillValue.trim() === ''}
                 className="btn btn-primary px-6 py-2.5"
               >
-                Check
+                Comprobar
               </button>
             ) : (
               <button onClick={next} className="btn btn-primary px-6 py-2.5">
-                {isLast ? 'Finish' : 'Next →'}
+                {isLast ? 'Finalizar' : 'Siguiente →'}
               </button>
             )}
           </div>

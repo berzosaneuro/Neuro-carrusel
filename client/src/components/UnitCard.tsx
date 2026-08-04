@@ -11,7 +11,7 @@ export default function UnitCard({ unit }: { unit: UnitStatus }) {
       }`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-medium text-text-tertiary tabular-nums">Unit {unit.order}</span>
+        <span className="text-[11px] font-medium text-text-tertiary tabular-nums">Unidad {unit.order}</span>
         {unit.locked && <span className="text-text-tertiary text-[13px]">🔒</span>}
         {!unit.locked && unit.completed && <span className="text-success text-[13px]">✓</span>}
       </div>

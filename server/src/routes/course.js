@@ -45,12 +45,12 @@ courseRouter.get('/', requireAuth, (req, res) => {
 
 courseRouter.get('/units/:id', requireAuth, (req, res) => {
   const unit = getUnitById(req.params.id);
-  if (!unit) return res.status(404).json({ error: 'Unit not found' });
+  if (!unit) return res.status(404).json({ error: 'Unidad no encontrada' });
 
   const statuses = buildUnitStatuses(req.userId);
   const status = statuses.find((s) => s.id === unit.id);
   if (status.locked) {
-    return res.status(403).json({ error: 'This unit is locked. Complete the previous unit first.' });
+    return res.status(403).json({ error: 'Esta unidad está bloqueada. Completa la unidad anterior primero.' });
   }
 
   res.json({ unit, status });

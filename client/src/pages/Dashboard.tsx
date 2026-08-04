@@ -20,7 +20,7 @@ export default function Dashboard() {
         setLevels(levels);
         setUnits(units);
       })
-      .catch(() => setError('Could not load your course. Please try again.'))
+      .catch(() => setError('No se pudo cargar el curso. Inténtalo de nuevo.'))
       .finally(() => setLoading(false));
   }, [token]);
 
@@ -33,20 +33,20 @@ export default function Dashboard() {
       <header className="sticky top-0 z-30 px-5 pt-6 pb-5 bg-bg/90 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-[15px] font-semibold tracking-tight">English</h1>
+            <h1 className="text-[15px] font-semibold tracking-tight">Inglés</h1>
             <p className="text-[13px] text-text-tertiary">A2 → C1</p>
           </div>
           {user && (user.currentStreak > 0 || user.bestStreak > 0) && (
             <div className="text-right">
               <p className="text-[15px] font-semibold tabular-nums">🔥 {user.currentStreak}</p>
-              <p className="text-[11px] text-text-tertiary">best {user.bestStreak}</p>
+              <p className="text-[11px] text-text-tertiary">mejor: {user.bestStreak}</p>
             </div>
           )}
         </div>
 
         <div className="mt-4">
           <div className="flex items-center justify-between mb-1.5">
-            <p className="text-[12px] font-medium text-text-secondary">Progress</p>
+            <p className="text-[12px] font-medium text-text-secondary">Progreso</p>
             <span className="text-[12px] font-medium text-text-secondary tabular-nums">
               {completedUnits}/{totalUnits}
             </span>

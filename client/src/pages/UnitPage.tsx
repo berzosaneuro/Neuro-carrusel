@@ -10,6 +10,12 @@ import Quiz from '../components/Quiz';
 
 const STEPS = ['Vocabulary', 'Grammar', 'Listening', 'Quiz'] as const;
 type Step = (typeof STEPS)[number];
+const STEP_LABELS: Record<Step, string> = {
+  Vocabulary: 'Vocabulario',
+  Grammar: 'Gramática',
+  Listening: 'Escucha',
+  Quiz: 'Prueba',
+};
 
 export default function UnitPage() {
   const { unitId } = useParams<{ unitId: string }>();
@@ -30,7 +36,7 @@ export default function UnitPage() {
       .getUnit(token, unitId)
       .then(({ unit }) => setUnit(unit))
       .catch((err) => {
-        setError(err instanceof ApiError ? err.message : 'Could not load this unit.');
+        setError(err instanceof ApiError ? err.message : 'No se pudo cargar esta unidad.');
       });
   }, [token, unitId]);
 
@@ -41,7 +47,7 @@ export default function UnitPage() {
       setResult({ score, total: unit.quiz.length, passed: res.passed });
       await refreshUser();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Could not save your progress.');
+      setError(err instanceof ApiError ? err.message : 'No se pudo guardar tu progreso.');
     }
   }
 
@@ -50,7 +56,7 @@ export default function UnitPage() {
       <div className="min-h-dvh flex flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-danger">{error}</p>
         <Link to="/" className="btn btn-primary px-5 py-2.5">
-          Back to dashboard
+          Volver al panel
         </Link>
       </div>
     );
@@ -72,7 +78,7 @@ export default function UnitPage() {
     <div className="min-h-dvh pb-12">
       <header className="sticky top-0 z-30 px-5 pt-6 pb-4 bg-bg/90 backdrop-blur-md border-b border-border">
         <Link to="/" className="text-[13px] text-text-secondary hover:text-text transition-colors">
-          ← Dashboard
+          ← Panel
         </Link>
         <h1 className="text-[16px] font-semibold mt-1">{unit.title}</h1>
         <p className="text-[13px] text-text-secondary">{unit.subtitle}</p>
@@ -97,7 +103,7 @@ export default function UnitPage() {
                         : 'border-border text-text-tertiary'
                   }`}
                 >
-                  {s}
+                  {STEP_LABELS[s]}
                 </button>
               </li>
             );
@@ -116,11 +122,11 @@ export default function UnitPage() {
             >
               <p className="text-5xl mb-4">{result.passed ? '🎉' : '💪'}</p>
               <h2 className="text-[18px] font-semibold mb-2">
-                {result.passed ? 'Unit completed!' : 'Almost there'}
+                {result.passed ? '¡Unidad completada!' : 'Casi lo consigues'}
               </h2>
               <p className="text-text-secondary mb-6 text-[14px]">
-                You scored {result.score} out of {result.total}.{' '}
-                {result.passed ? 'The next unit is now unlocked.' : 'You need 60% to pass — try again!'}
+                Has acertado {result.score} de {result.total}.{' '}
+                {result.passed ? 'La siguiente unidad ya está desbloqueada.' : 'Necesitas un 60% para aprobar — ¡inténtalo de nuevo!'}
               </p>
               <div className="flex flex-col gap-2.5">
                 {!result.passed && (
@@ -131,11 +137,11 @@ export default function UnitPage() {
                     }}
                     className="btn btn-secondary py-2.5"
                   >
-                    Retry quiz
+                    Reintentar
                   </button>
                 )}
                 <button onClick={() => navigate('/')} className="btn btn-primary py-2.5">
-                  Back to dashboard
+                  Volver al panel
                 </button>
               </div>
             </motion.div>
@@ -164,7 +170,7 @@ export default function UnitPage() {
                     onClick={() => setStep(STEPS[STEPS.indexOf(step) + 1])}
                     className="btn btn-primary px-6 py-2.5"
                   >
-                    Continue →
+                    Continuar →
                   </button>
                 </div>
               )}

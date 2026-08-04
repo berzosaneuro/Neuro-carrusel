@@ -20,9 +20,9 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
   if (error || !token) {
     return (
       <div className="min-h-dvh flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="text-text-secondary">{error ?? 'Something went wrong.'}</p>
+        <p className="text-text-secondary">{error ?? 'Ha ocurrido un error.'}</p>
         <button onClick={retry} className="btn btn-primary px-5 py-2.5">
-          Retry
+          Reintentar
         </button>
       </div>
     );

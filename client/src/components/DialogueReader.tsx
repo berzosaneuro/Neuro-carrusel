@@ -23,7 +23,7 @@ export default function DialogueReader({ dialogue }: { dialogue: Dialogue }) {
       </div>
 
       <div>
-        <h4 className="text-[15px] font-semibold mb-3">Comprehension check</h4>
+        <h4 className="text-[15px] font-semibold mb-3">Comprueba tu comprensión</h4>
         <div className="space-y-3">
           {dialogue.comprehension.map((q, qi) => {
             const selected = answers[qi];

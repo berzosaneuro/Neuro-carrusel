@@ -39,12 +39,12 @@ function updateStreak(user) {
 progressRouter.post('/complete', requireAuth, (req, res) => {
   const { unitId, score, totalQuestions } = req.body || {};
   const unit = getUnitById(unitId);
-  if (!unit) return res.status(404).json({ error: 'Unit not found' });
+  if (!unit) return res.status(404).json({ error: 'Unidad no encontrada' });
 
   const statuses = buildUnitStatuses(req.userId);
   const status = statuses.find((s) => s.id === unitId);
   if (status.locked) {
-    return res.status(403).json({ error: 'This unit is locked' });
+    return res.status(403).json({ error: 'Esta unidad está bloqueada' });
   }
 
   const numericScore = Number(score);
@@ -56,7 +56,7 @@ progressRouter.post('/complete', requireAuth, (req, res) => {
     numericScore < 0 ||
     numericScore > numericTotal
   ) {
-    return res.status(400).json({ error: 'Invalid score payload' });
+    return res.status(400).json({ error: 'Datos de puntuación no válidos' });
   }
 
   const passed = numericScore / numericTotal >= 0.6;
