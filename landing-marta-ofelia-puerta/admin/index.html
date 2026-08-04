@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Panel · Marta Ofelia Puerta</title>
+<style>
+  :root {
+    --void: #050318; --panel-2: #14113a;
+    --cyan: #00f0ff; --magenta: #ff2bd6; --green: #39ff9d;
+    --ink: #eaf6ff; --ink-dim: #8b8fc7;
+    --font-display: 'Orbitron', system-ui, sans-serif;
+    --font-body: 'Rajdhani', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100dvh; background: var(--void); color: var(--ink);
+    font-family: var(--font-body); padding: 1.5rem;
+  }
+  h1, h2 { font-family: var(--font-display); margin: 0 0 1rem; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  .panel { background: linear-gradient(160deg, rgba(20,17,58,0.85), rgba(13,11,38,0.85)); border: 1px solid rgba(0,240,255,0.18); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.25rem; overflow-x: auto; }
+  input, textarea { width: 100%; font-family: inherit; font-size: 0.95rem; color: var(--ink); background: rgba(5,3,24,0.5); border: 1px solid rgba(139,143,199,0.3); border-radius: 10px; padding: 0.6rem 0.75rem; margin-top: 0.3rem; margin-bottom: 0.8rem; outline: none; }
+  input:focus, textarea:focus { border-color: var(--cyan); }
+  label { font-size: 0.75rem; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+  button { font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; border: none; border-radius: 10px; padding: 0.65rem 1.1rem; cursor: pointer; color: #04030d; background: linear-gradient(160deg, var(--cyan), #0aa8ff); }
+  button.secondary { background: rgba(139,143,199,0.18); color: var(--ink); }
+  button.danger { background: linear-gradient(160deg, var(--magenta), #b6009c); color: #1a0016; }
+  .row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 480px; }
+  th, td { text-align: left; padding: 0.5rem 0.4rem; border-bottom: 1px solid rgba(139,143,199,0.15); vertical-align: top; }
+  th { color: var(--ink-dim); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em; }
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .tab-btn { background: rgba(139,143,199,0.12); color: var(--ink-dim); }
+  .tab-btn.active { background: linear-gradient(160deg, var(--cyan), #0aa8ff); color: #04030d; }
+  .hidden { display: none; }
+  .status-tag { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 999px; }
+  .status-confirmed { background: rgba(57,255,157,0.15); color: var(--green); }
+  .status-cancelled { background: rgba(255,43,214,0.15); color: var(--magenta); }
+  .msg { font-size: 0.85rem; margin-top: 0.6rem; }
+  .msg.err { color: var(--magenta); }
+  .msg.ok { color: var(--green); }
+  .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="loginView" class="panel">
+    <h1>Panel de Marta Ofelia</h1>
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" placeholder="Contraseña de administración" />
+    <button id="loginBtn">Entrar</button>
+    <p id="loginMsg" class="msg hidden"></p>
+  </div>
+
+  <div id="dashView" class="hidden">
+    <div class="top-row">
+      <h1>Panel de Marta Ofelia</h1>
+      <button class="secondary" id="logoutBtn">Salir</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="leads">Mensajes</button>
+      <button class="tab-btn" data-tab="appointments">Citas</button>
+      <button class="tab-btn" data-tab="slots">Horarios</button>
+    </div>
+
+    <div id="tab-leads" class="panel">
+      <h2>Mensajes recibidos</h2>
+      <table><thead><tr><th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Mensaje</th></tr></thead><tbody id="leadsBody"></tbody></table>
+    </div>
+
+    <div id="tab-appointments" class="panel hidden">
+      <h2>Citas</h2>
+      <table><thead><tr><th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Notas</th><th>Estado</th><th></th></tr></thead><tbody id="apptsBody"></tbody></table>
+    </div>
+
+    <div id="tab-slots" class="panel hidden">
+      <h2>Añadir horario disponible</h2>
+      <div class="row">
+        <div style="flex:1; min-width:160px;">
+          <label for="slotDate">Fecha</label>
+          <input id="slotDate" type="date" />
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <label for="slotTime">Hora inicio</label>
+          <input id="slotTime" type="time" />
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <label for="slotDuration">Duración (min)</label>
+          <input id="slotDuration" type="number" value="60" min="15" step="15" />
+        </div>
+      </div>
+      <button id="addSlotBtn">Añadir horario</button>
+      <p id="slotMsg" class="msg hidden"></p>
+      <h2 style="margin-top:1.5rem;">Próximos horarios</h2>
+      <table><thead><tr><th>Fecha</th><th>Hora</th><th>Estado</th><th></th></tr></thead><tbody id="slotsBody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const DATE_FMT = new Intl.DateTimeFormat('es-CO', { day: '2-digit', month: 'short', year: 'numeric' });
+  const TIME_FMT = new Intl.DateTimeFormat('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+  const loginView = document.getElementById('loginView');
+  const dashView = document.getElementById('dashView');
+  const loginMsg = document.getElementById('loginMsg');
+
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const pw = document.getElementById('pw').value;
+    loginMsg.classList.add('hidden');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Error al entrar');
+      showDashboard();
+    } catch (err) {
+      loginMsg.textContent = err.message;
+      loginMsg.className = 'msg err';
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    dashView.classList.add('hidden');
+    loginView.classList.remove('hidden');
+  });
+
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      ['leads', 'appointments', 'slots'].forEach((t) => {
+        document.getElementById('tab-' + t).classList.toggle('hidden', t !== btn.dataset.tab);
+      });
+    });
+  });
+
+  function showDashboard() {
+    loginView.classList.add('hidden');
+    dashView.classList.remove('hidden');
+    loadLeads();
+    loadAppointments();
+    loadSlots();
+  }
+
+  async function authedFetch(url, opts) {
+    const res = await fetch(url, opts);
+    if (res.status === 401) {
+      dashView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+      throw new Error('Sesión expirada');
+    }
+    return res;
+  }
+
+  async function loadLeads() {
+    const res = await authedFetch('/api/admin/leads');
+    const data = await res.json();
+    const body = document.getElementById('leadsBody');
+    body.innerHTML = (data.leads || []).map((l) => `
+      <tr>
+        <td>${DATE_FMT.format(new Date(l.created_at))}</td>
+        <td>${escapeHtml(l.name)}</td>
+        <td>${escapeHtml(l.contact)}</td>
+        <td>${escapeHtml(l.message || '')}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="4">Sin mensajes todavía.</td></tr>';
+  }
+
+  async function loadAppointments() {
+    const res = await authedFetch('/api/admin/appointments');
+    const data = await res.json();
+    const body = document.getElementById('apptsBody');
+    body.innerHTML = (data.appointments || []).map((a) => `
+      <tr>
+        <td>${DATE_FMT.format(new Date(a.start_at))} ${TIME_FMT.format(new Date(a.start_at))}</td>
+        <td>${escapeHtml(a.name)}</td>
+        <td>${escapeHtml(a.contact)}</td>
+        <td>${escapeHtml(a.notes || '')}</td>
+        <td><span class="status-tag status-${a.status}">${a.status}</span></td>
+        <td>${a.status === 'confirmed' ? `<button class="danger" data-cancel="${a.id}">Cancelar</button>` : ''}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="6">Sin citas todavía.</td></tr>';
+    body.querySelectorAll('[data-cancel]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        await authedFetch('/api/admin/appointments?id=' + btn.dataset.cancel, { method: 'DELETE' });
+        loadAppointments();
+        loadSlots();
+      });
+    });
+  }
+
+  async function loadSlots() {
+    const res = await authedFetch('/api/admin/slots');
+    const data = await res.json();
+    const body = document.getElementById('slotsBody');
+    body.innerHTML = (data.slots || []).map((s) => `
+      <tr>
+        <td>${DATE_FMT.format(new Date(s.start_at))}</td>
+        <td>${TIME_FMT.format(new Date(s.start_at))} - ${TIME_FMT.format(new Date(s.end_at))}</td>
+        <td>${s.is_booked ? 'Reservado' : 'Libre'}</td>
+        <td>${!s.is_booked ? `<button class="danger" data-remove="${s.id}">Eliminar</button>` : ''}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="4">Sin horarios creados.</td></tr>';
+    body.querySelectorAll('[data-remove]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        await authedFetch('/api/admin/slots?id=' + btn.dataset.remove, { method: 'DELETE' });
+        loadSlots();
+      });
+    });
+  }
+
+  document.getElementById('addSlotBtn').addEventListener('click', async () => {
+    const date = document.getElementById('slotDate').value;
+    const time = document.getElementById('slotTime').value;
+    const duration = parseInt(document.getElementById('slotDuration').value, 10) || 60;
+    const slotMsg = document.getElementById('slotMsg');
+    slotMsg.classList.add('hidden');
+    if (!date || !time) {
+      slotMsg.textContent = 'Elige fecha y hora.';
+      slotMsg.className = 'msg err';
+      return;
+    }
+    const startAt = new Date(`${date}T${time}:00`);
+    const endAt = new Date(startAt.getTime() + duration * 60000);
+    try {
+      const res = await authedFetch('/api/admin/slots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ startAt: startAt.toISOString(), endAt: endAt.toISOString() }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Error al crear el horario');
+      slotMsg.textContent = 'Horario añadido.';
+      slotMsg.className = 'msg ok';
+      loadSlots();
+    } catch (err) {
+      slotMsg.textContent = err.message;
+      slotMsg.className = 'msg err';
+    }
+  });
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  (async () => {
+    const res = await fetch('/api/admin/leads');
+    if (res.ok) showDashboard();
+  })();
+</script>
+</body>
+</html>
