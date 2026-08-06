@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=3" />
+  <link rel="stylesheet" href="assets/css/style.css?v=4" />
 
   <script type="application/ld+json">
   {
@@ -49,7 +49,9 @@
         <a href="#inicio">Inicio</a>
         <a href="#sobre-mi">Sobre mí</a>
         <a href="#servicios">Servicios</a>
+        <a href="#precios">Precios</a>
         <a href="#trabajo">Portafolio</a>
+        <a href="#faq">FAQ</a>
         <a href="#testimonios">Testimonios</a>
         <a class="nav__cta" href="https://wa.me/000000000000" target="_blank" rel="noopener">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
@@ -82,7 +84,7 @@
       </ul>
     </div>
     <div class="hero__media">
-      <img src="assets/img/hero-angie.jpg?v=3" alt="Angie Gómez, maquilladora profesional, sosteniendo brochas de maquillaje" width="1392" height="1632" fetchpriority="high" />
+      <img src="assets/img/hero-angie.jpg?v=4" alt="Angie Gómez, maquilladora profesional, sosteniendo brochas de maquillaje" width="1392" height="1632" fetchpriority="high" />
       <div class="hero__badge">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9C.7 8.5 2 5 5.5 5 8 5 10 6.7 12 9c2-2.3 4-4 6.5-4 3.5 0 4.8 3.5 3 7-2.5 4.5-9.5 9-9.5 9z"/></svg>
         <div>
@@ -98,7 +100,7 @@
     <!-- ABOUT -->
     <section class="about" id="sobre-mi" aria-labelledby="about-title">
       <div class="about__media">
-        <img src="assets/img/about-angie.jpg?v=3" alt="Angie Gómez, retrato de cerca" width="942" height="1109" loading="lazy" />
+        <img src="assets/img/about-angie.jpg?v=4" alt="Angie Gómez, retrato de cerca" width="942" height="1109" loading="lazy" />
       </div>
       <div class="about__text">
         <p class="eyebrow">Sobre mí</p>
@@ -155,38 +157,135 @@
       </div>
     </section>
 
+    <!-- PRICING -->
+    <section class="pricing" id="precios" aria-labelledby="pricing-title">
+      <p class="eyebrow eyebrow--center">Inversión</p>
+      <h2 id="pricing-title">Precios y Paquetes</h2>
+      <span class="divider" aria-hidden="true">♡</span>
+      <div class="pricing__grid">
+        <article class="price-card">
+          <h3>Social</h3>
+          <p class="price-card__price">Desde $XXX</p>
+          <ul>
+            <li>Piel natural de larga duración</li>
+            <li>Diseño de mirada a elección</li>
+            <li>Fijación en spray incluida</li>
+          </ul>
+          <a class="btn btn--ghost" href="https://wa.me/000000000000?text=Hola%20Angie%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20paquete%20Social" target="_blank" rel="noopener">Reservar</a>
+        </article>
+
+        <article class="price-card price-card--featured">
+          <span class="price-card__badge">Más elegido</span>
+          <h3>Novia</h3>
+          <p class="price-card__price">Desde $XXX</p>
+          <ul>
+            <li>Prueba de maquillaje incluida</li>
+            <li>Maquillaje día del evento</li>
+            <li>Retoques durante la sesión de fotos</li>
+            <li>Productos de alta gama a prueba de agua</li>
+          </ul>
+          <a class="btn btn--primary" href="https://wa.me/000000000000?text=Hola%20Angie%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20paquete%20de%20Novia" target="_blank" rel="noopener">Reservar</a>
+        </article>
+
+        <article class="price-card">
+          <h3>XV Años</h3>
+          <p class="price-card__price">Desde $XXX</p>
+          <ul>
+            <li>Maquillaje de larga duración</li>
+            <li>Diseño personalizado según el vestido</li>
+            <li>Retoque incluido</li>
+          </ul>
+          <a class="btn btn--ghost" href="https://wa.me/000000000000?text=Hola%20Angie%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20paquete%20de%20XV%20A%C3%B1os" target="_blank" rel="noopener">Reservar</a>
+        </article>
+
+        <article class="price-card">
+          <h3>Editorial / Eventos</h3>
+          <p class="price-card__price">Cotización</p>
+          <ul>
+            <li>Sesiones fotográficas y editoriales</li>
+            <li>Eventos especiales y producciones</li>
+            <li>Precio según duración y equipo</li>
+          </ul>
+          <a class="btn btn--ghost" href="https://wa.me/000000000000?text=Hola%20Angie%2C%20quiero%20cotizar%20un%20servicio%20editorial%20o%20de%20evento" target="_blank" rel="noopener">Cotizar</a>
+        </article>
+      </div>
+      <p class="pricing__note">Precios de ejemplo — reemplázalos por tus tarifas reales. El costo final puede variar según ubicación y servicio.</p>
+    </section>
+
     <!-- PORTFOLIO -->
     <section class="portfolio" id="trabajo" aria-labelledby="portfolio-title">
       <p class="eyebrow eyebrow--center">Mi trabajo</p>
       <h2 id="portfolio-title">Portafolio</h2>
       <span class="divider" aria-hidden="true">♡</span>
 
-      <div class="portfolio__grid">
-        <a class="portfolio__feature" href="https://instagram.com/angiegomez.makeup" target="_blank" rel="noopener">
-          <img src="assets/img/about-angie.jpg?v=3" alt="" width="942" height="1109" loading="lazy" />
-          <div class="portfolio__feature-overlay">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="4"/><path d="M9 6h6M9 18h.01"/></svg>
-            <div>
-              <strong>Ve el portafolio completo</strong>
-              <span>@angiegomez.makeup en Instagram</span>
-            </div>
-          </div>
-        </a>
-
-        <article class="portfolio__tile portfolio__tile--rose">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm-6 9c1-2 3.5-3 6-3s5 1 6 3v7H6v-7z"/></svg>
-          <span>Novias</span>
-        </article>
-        <article class="portfolio__tile portfolio__tile--gold">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8zm2 13h14v2H5z"/></svg>
-          <span>XV Años</span>
-        </article>
-        <article class="portfolio__tile portfolio__tile--blush">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2h6l2 2h3v11H4V8z"/><circle cx="12" cy="13" r="3.5"/></svg>
-          <span>Editorial</span>
-        </article>
+      <div class="gallery" id="gallery">
+        <button class="gallery__item" type="button" data-full="assets/img/hero-angie.jpg?v=4" data-caption="Angie Gómez con brochas de maquillaje profesional">
+          <img src="assets/img/hero-angie.jpg?v=4" alt="Angie Gómez con brochas de maquillaje profesional" width="1392" height="1632" loading="lazy" />
+        </button>
+        <button class="gallery__item" type="button" data-full="assets/img/gallery/gallery-2.jpg" data-caption="Detalle de brochas profesionales">
+          <img src="assets/img/gallery/gallery-2.jpg" alt="Detalle de brochas de maquillaje profesional" width="1392" height="620" loading="lazy" />
+        </button>
+        <button class="gallery__item" type="button" data-full="assets/img/gallery/gallery-1.jpg" data-caption="Beauty look">
+          <img src="assets/img/gallery/gallery-1.jpg" alt="Detalle de maquillaje de ojos y labios" width="1003" height="1011" loading="lazy" />
+        </button>
+        <button class="gallery__item" type="button" data-full="assets/img/about-angie.jpg?v=4" data-caption="Retrato de Angie Gómez">
+          <img src="assets/img/about-angie.jpg?v=4" alt="Retrato de Angie Gómez" width="942" height="1109" loading="lazy" />
+        </button>
       </div>
-      <p class="portfolio__note">Sesiones y trabajos completos se publican primero en Instagram — la galería aquí se irá ampliando.</p>
+
+      <a class="btn btn--ghost portfolio__ig-link" href="https://instagram.com/angiegomez.makeup" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="4"/><path d="M9 6h6M9 18h.01"/></svg>
+        Ver más trabajos en Instagram
+      </a>
+      <p class="portfolio__note">Galería ampliándose — sustituye estas fotos por tus propios trabajos cuando las tengas.</p>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" hidden>
+      <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Cerrar">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <button class="lightbox__nav lightbox__prev" id="lightboxPrev" type="button" aria-label="Anterior">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <button class="lightbox__nav lightbox__next" id="lightboxNext" type="button" aria-label="Siguiente">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <p class="eyebrow eyebrow--center">Dudas</p>
+      <h2 id="faq-title">Preguntas Frecuentes</h2>
+      <span class="divider" aria-hidden="true">♡</span>
+      <div class="faq__list">
+        <details class="faq__item">
+          <summary>¿Cómo puedo agendar una cita?</summary>
+          <p>Escríbeme por WhatsApp o completa el formulario de reserva más abajo con la fecha y el servicio que necesitas, y te confirmo disponibilidad lo antes posible.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Con cuánta anticipación debo reservar?</summary>
+          <p>Para bodas y XV años recomiendo reservar con al menos 3-4 semanas de anticipación. Para maquillaje social, unos días antes suele ser suficiente.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Te desplazas a domicilio?</summary>
+          <p>Sí, ofrezco servicio a domicilio (el costo puede variar según la ubicación). También puedes maquillarte en mi estudio.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Qué métodos de pago aceptas?</summary>
+          <p>Efectivo y transferencia bancaria. Para eventos suelo pedir un anticipo para apartar la fecha.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Qué productos utilizas?</summary>
+          <p>Trabajo con productos profesionales de alta gama, adecuados para piel sensible y con buena duración fotográfica.</p>
+        </details>
+        <details class="faq__item">
+          <summary>¿Ofreces prueba de maquillaje antes del evento?</summary>
+          <p>Sí, para novias y XV años recomiendo una sesión de prueba previa para definir el look perfecto juntas.</p>
+        </details>
+      </div>
+      <p class="faq__note">Respuestas de ejemplo — ajústalas a tus políticas reales antes de publicar.</p>
     </section>
 
     <!-- TESTIMONIALS -->
@@ -219,14 +318,53 @@
 
   </main>
 
-  <!-- CTA -->
-  <section class="cta" id="contacto">
-    <h2 class="script">¿Lista para lucir<br>espectacular? <span aria-hidden="true">♡</span></h2>
-    <a class="btn btn--primary btn--lg" href="https://wa.me/000000000000" target="_blank" rel="noopener">
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
-      Agendar mi Cita
-    </a>
-    <p class="cta__hint">¡Será un placer ser parte de tu día!</p>
+  <!-- BOOKING -->
+  <section class="booking" id="reserva">
+    <div class="booking__intro">
+      <p class="eyebrow">Reserva</p>
+      <h2 class="script">¿Lista para lucir<br>espectacular? <span aria-hidden="true">♡</span></h2>
+      <p>Escríbeme directo por WhatsApp o completa el formulario y te contacto para confirmar tu cita.</p>
+      <a class="btn btn--primary btn--lg" href="https://wa.me/000000000000" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+        Agendar por WhatsApp
+      </a>
+      <p class="cta__hint">¡Será un placer ser parte de tu día!</p>
+    </div>
+
+    <form class="booking__form" id="bookingForm" novalidate>
+      <label class="booking__field">
+        <span>Nombre</span>
+        <input type="text" name="nombre" autocomplete="name" required />
+      </label>
+      <label class="booking__field">
+        <span>Teléfono</span>
+        <input type="tel" name="telefono" autocomplete="tel" required />
+      </label>
+      <label class="booking__field">
+        <span>Servicio</span>
+        <select name="servicio" required>
+          <option value="" disabled selected>Selecciona un servicio</option>
+          <option>Maquillaje Social</option>
+          <option>Novia</option>
+          <option>XV Años</option>
+          <option>Editorial / Fotográfico</option>
+          <option>Evento Especial</option>
+        </select>
+      </label>
+      <label class="booking__field">
+        <span>Fecha del evento</span>
+        <input type="date" name="fecha" />
+      </label>
+      <label class="booking__field booking__field--full">
+        <span>Mensaje</span>
+        <textarea name="mensaje" rows="3" placeholder="Cuéntame más sobre tu evento..."></textarea>
+      </label>
+      <p class="booking__form-note">Al enviar se abrirá WhatsApp con tus datos ya escritos, listos para mandar.</p>
+      <button type="submit" class="btn btn--primary booking__submit">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+        Enviar por WhatsApp
+      </button>
+    </form>
   </section>
 
   <!-- FOOTER -->
@@ -245,8 +383,11 @@
         <p class="footer__heading">Navegación</p>
         <a href="#sobre-mi">Sobre mí</a>
         <a href="#servicios">Servicios</a>
+        <a href="#precios">Precios</a>
         <a href="#trabajo">Portafolio</a>
+        <a href="#faq">FAQ</a>
         <a href="#testimonios">Testimonios</a>
+        <a href="#reserva">Reservar</a>
       </div>
 
       <div class="footer__col">
@@ -272,6 +413,6 @@
     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
   </a>
 
-  <script src="assets/js/main.js?v=3" defer></script>
+  <script src="assets/js/main.js?v=4" defer></script>
 </body>
 </html>
