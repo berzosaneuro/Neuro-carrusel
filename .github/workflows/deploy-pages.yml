@@ -5,17 +5,17 @@ on:
     branches: [claude/english-learning-app-9fbgtw]
   workflow_dispatch:
 
+# Pages serves this site from the gh-pages branch, so the build is published
+# by pushing to that branch rather than through the Pages deployment API.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: deploy-pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,21 +28,15 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
-      - name: Disable Jekyll processing
-        run: touch client/dist/.nojekyll
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: client/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish to gh-pages
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          touch client/dist/.nojekyll
+          cd client/dist
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy $GITHUB_SHA"
+          git push -f -q "https://x-access-token:$TOKEN@github.com/$GITHUB_REPOSITORY.git" gh-pages
