@@ -62,10 +62,7 @@ export interface Unit {
   quiz: QuizQuestion[];
 }
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
+export interface Profile {
   currentStreak: number;
   bestStreak: number;
 }

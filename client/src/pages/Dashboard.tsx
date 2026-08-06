@@ -1,28 +1,10 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
-import { api } from '../api/client';
-import type { Level, UnitStatus } from '../types';
+import { useProgress } from '../context/ProgressContext';
+import { LEVELS } from '../store/progress';
 import UnitCard from '../components/UnitCard';
 
 export default function Dashboard() {
-  const { user, token } = useAuth();
-  const [levels, setLevels] = useState<Level[]>([]);
-  const [units, setUnits] = useState<UnitStatus[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!token) return;
-    api
-      .getCourse(token)
-      .then(({ levels, units }) => {
-        setLevels(levels);
-        setUnits(units);
-      })
-      .catch(() => setError('No se pudo cargar el curso. Inténtalo de nuevo.'))
-      .finally(() => setLoading(false));
-  }, [token]);
+  const { profile, units } = useProgress();
 
   const totalUnits = units.length;
   const completedUnits = units.filter((u) => u.completed).length;
@@ -36,7 +18,7 @@ export default function Dashboard() {
             <h1 className="text-[19px] font-bold tracking-tight">Inglés</h1>
             <p className="text-[14px] text-text-tertiary">A2 → C1</p>
           </div>
-          {user && (user.currentStreak > 0 || user.bestStreak > 0) && (
+          {(profile.currentStreak > 0 || profile.bestStreak > 0) && (
             <motion.div
               className="text-right"
               initial={{ scale: 0.8, opacity: 0 }}
@@ -44,9 +26,9 @@ export default function Dashboard() {
               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
             >
               <p className="text-[17px] font-bold tabular-nums">
-                <span className="streak-flame">🔥</span> {user.currentStreak}
+                <span className="streak-flame">🔥</span> {profile.currentStreak}
               </p>
-              <p className="text-[12px] text-text-tertiary">mejor: {user.bestStreak}</p>
+              <p className="text-[12px] text-text-tertiary">mejor: {profile.bestStreak}</p>
             </motion.div>
           )}
         </div>
@@ -70,57 +52,46 @@ export default function Dashboard() {
       </header>
 
       <main className="px-5 pt-6">
-        {loading && (
-          <div className="space-y-3">
-            {[0, 1].map((i) => (
-              <div key={i} className="h-24 rounded-2xl bg-surface animate-pulse" />
-            ))}
-          </div>
-        )}
-        {error && <p className="text-danger text-sm">{error}</p>}
-
-        {!loading &&
-          !error &&
-          levels.map((level, levelIndex) => {
-            const levelUnits = units.filter((u) => u.level === level.id);
-            const levelCompleted = levelUnits.filter((u) => u.completed).length;
-            return (
-              <motion.section
-                key={level.id}
-                className="mb-8"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: levelIndex * 0.06, type: 'spring', stiffness: 200, damping: 22 }}
-              >
-                <div className="mb-3 flex items-baseline justify-between">
-                  <div>
-                    <h2 className="text-[17px] font-bold">{level.title}</h2>
-                    <p className="text-[14px] text-text-secondary mt-0.5">{level.description}</p>
-                  </div>
-                  <span className="text-[13px] text-text-tertiary tabular-nums shrink-0 ml-3">
-                    {levelCompleted}/{levelUnits.length}
-                  </span>
+        {LEVELS.map((level, levelIndex) => {
+          const levelUnits = units.filter((u) => u.level === level.id);
+          const levelCompleted = levelUnits.filter((u) => u.completed).length;
+          return (
+            <motion.section
+              key={level.id}
+              className="mb-8"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: levelIndex * 0.06, type: 'spring', stiffness: 200, damping: 22 }}
+            >
+              <div className="mb-3 flex items-baseline justify-between">
+                <div>
+                  <h2 className="text-[17px] font-bold">{level.title}</h2>
+                  <p className="text-[14px] text-text-secondary mt-0.5">{level.description}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {levelUnits.map((unit, unitIndex) => (
-                    <motion.div
-                      key={unit.id}
-                      initial={{ opacity: 0, scale: 0.94 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        delay: levelIndex * 0.06 + unitIndex * 0.03,
-                        type: 'spring',
-                        stiffness: 260,
-                        damping: 22,
-                      }}
-                    >
-                      <UnitCard unit={unit} />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.section>
-            );
-          })}
+                <span className="text-[13px] text-text-tertiary tabular-nums shrink-0 ml-3">
+                  {levelCompleted}/{levelUnits.length}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {levelUnits.map((unit, unitIndex) => (
+                  <motion.div
+                    key={unit.id}
+                    initial={{ opacity: 0, scale: 0.94 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      delay: levelIndex * 0.06 + unitIndex * 0.03,
+                      type: 'spring',
+                      stiffness: 260,
+                      damping: 22,
+                    }}
+                  >
+                    <UnitCard unit={unit} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          );
+        })}
       </main>
     </div>
   );

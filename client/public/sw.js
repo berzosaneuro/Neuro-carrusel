@@ -1,5 +1,7 @@
-const CACHE_NAME = 'english-app-v1';
-const APP_SHELL = ['/', '/manifest.json', '/favicon.svg'];
+// Paths are relative to the service worker scope so the app also works when
+// it is served from a subdirectory (GitHub Pages).
+const CACHE_NAME = 'english-app-v2';
+const APP_SHELL = ['./', './manifest.json', './favicon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -17,7 +19,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  if (request.method !== 'GET' || request.url.includes('/api/')) return;
+  if (request.method !== 'GET') return;
 
   event.respondWith(
     fetch(request)
@@ -26,6 +28,8 @@ self.addEventListener('fetch', (event) => {
         caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         return response;
       })
-      .catch(() => caches.match(request).then((cached) => cached || caches.match('/')))
+      .catch(() =>
+        caches.match(request).then((cached) => cached || caches.match(new URL('./', self.registration.scope).href))
+      )
   );
 });

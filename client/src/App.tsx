@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ProgressProvider } from './context/ProgressContext';
 import AppShell from './components/AppShell';
 import Dashboard from './pages/Dashboard';
 import UnitPage from './pages/UnitPage';
@@ -19,22 +18,8 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait" initial={false}>
       <motion.div key={location.pathname} {...pageTransition}>
         <Routes location={location}>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/unit/:unitId"
-            element={
-              <ProtectedRoute>
-                <UnitPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/unit/:unitId" element={<UnitPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>
@@ -44,13 +29,13 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <ProgressProvider>
+      <HashRouter>
         <AppShell>
           <AnimatedRoutes />
         </AppShell>
-      </BrowserRouter>
-    </AuthProvider>
+      </HashRouter>
+    </ProgressProvider>
   );
 }
 

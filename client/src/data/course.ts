@@ -1,16 +1,18 @@
+import type { Level, Unit } from '../types';
+
 // Course content: 4 CEFR levels (A2 -> C1), 4 units per level.
 // Each unit has: vocabulary, a grammar point with examples, a dialogue
 // (listening presented as text, since no audio pipeline), and a quiz.
 // unit.id must be globally unique and encodes ordering: "<level>-u<n>"
 
-export const LEVELS = [
+export const LEVELS: Level[] = [
   { id: 'A2', title: 'A2 - Elemental', description: 'Consolida las bases: rutinas, pasado, comparaciones y planes.' },
   { id: 'B1', title: 'B1 - Intermedio', description: 'Exprésate con más matices: experiencias, condicionales y opiniones.' },
   { id: 'B2', title: 'B2 - Intermedio alto', description: 'Domina estructuras complejas y vocabulario más preciso.' },
   { id: 'C1', title: 'C1 - Avanzado', description: 'Fluidez, registro formal y matices idiomáticos.' },
 ];
 
-export const COURSE = [
+export const COURSE: Unit[] = [
   // ======================= A2 =======================
   {
     id: 'A2-u1',
@@ -922,7 +924,7 @@ export const COURSE = [
   },
 ];
 
-export function getUnitById(id) {
+export function getUnitById(id: string) {
   return COURSE.find((u) => u.id === id);
 }
 

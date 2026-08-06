@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
-import { api, ApiError } from '../api/client';
-import type { Unit } from '../types';
+import { useProgress } from '../context/ProgressContext';
+import { getUnitById } from '../store/progress';
 import Flashcards from '../components/Flashcards';
 import DialogueReader from '../components/DialogueReader';
 import Quiz from '../components/Quiz';
@@ -19,42 +18,28 @@ const STEP_LABELS: Record<Step, string> = {
 
 export default function UnitPage() {
   const { unitId } = useParams<{ unitId: string }>();
-  const { token, refreshUser } = useAuth();
+  const { units, completeUnit } = useProgress();
   const navigate = useNavigate();
 
-  const [unit, setUnit] = useState<Unit | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<Step>('Vocabulary');
   const [result, setResult] = useState<{ score: number; total: number; passed: boolean } | null>(null);
 
+  const unit = unitId ? getUnitById(unitId) : undefined;
+  const status = units.find((u) => u.id === unitId);
+
   useEffect(() => {
-    if (!token || !unitId) return;
-    setUnit(null);
-    setResult(null);
     setStep('Vocabulary');
-    api
-      .getUnit(token, unitId)
-      .then(({ unit }) => setUnit(unit))
-      .catch((err) => {
-        setError(err instanceof ApiError ? err.message : 'No se pudo cargar esta unidad.');
-      });
-  }, [token, unitId]);
+    setResult(null);
+  }, [unitId]);
 
-  async function handleQuizFinish(score: number) {
-    if (!token || !unit) return;
-    try {
-      const res = await api.completeUnit(token, unit.id, score, unit.quiz.length);
-      setResult({ score, total: unit.quiz.length, passed: res.passed });
-      await refreshUser();
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo guardar tu progreso.');
-    }
-  }
-
-  if (error) {
+  if (!unit || !status || status.locked) {
     return (
       <div className="min-h-dvh flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="text-danger text-[15px]">{error}</p>
+        <p className="text-danger text-[15px]">
+          {unit && status?.locked
+            ? 'Esta unidad está bloqueada. Completa la unidad anterior primero.'
+            : 'No se encontró esta unidad.'}
+        </p>
         <Link to="/" className="btn btn-primary px-5 py-3">
           Volver al panel
         </Link>
@@ -62,16 +47,10 @@ export default function UnitPage() {
     );
   }
 
-  if (!unit) {
-    return (
-      <div className="min-h-dvh flex items-center justify-center">
-        <motion.div
-          className="h-9 w-9 rounded-full border-2 border-border border-t-accent"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
-        />
-      </div>
-    );
+  function handleQuizFinish(score: number) {
+    const total = unit!.quiz.length;
+    const { passed } = completeUnit(unit!.id, score, total);
+    setResult({ score, total, passed });
   }
 
   return (
@@ -135,7 +114,9 @@ export default function UnitPage() {
               </h2>
               <p className="text-text-secondary mb-6 text-[15px]">
                 Has acertado {result.score} de {result.total}.{' '}
-                {result.passed ? 'La siguiente unidad ya está desbloqueada.' : 'Necesitas un 60% para aprobar — ¡inténtalo de nuevo!'}
+                {result.passed
+                  ? 'La siguiente unidad ya está desbloqueada.'
+                  : 'Necesitas un 60% para aprobar — ¡inténtalo de nuevo!'}
               </p>
               <div className="flex flex-col gap-2.5">
                 {!result.passed && (
