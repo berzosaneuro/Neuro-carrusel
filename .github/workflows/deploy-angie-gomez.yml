@@ -1,0 +1,31 @@
+name: Deploy Angie Gómez site to GitHub Pages
+
+on:
+  push:
+    branches: [claude/nicol-gomez-website-6j1kpp]
+    paths:
+      - "angie-gomez/**"
+      - ".github/workflows/deploy-angie-gomez.yml"
+  workflow_dispatch:
+
+# Publishes client/dist under /angie-gomez/ inside the existing gh-pages branch
+# without touching the English-course site already published at the root.
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-angie-gomez
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish to gh-pages/angie-gomez
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./angie-gomez
+          destination_dir: angie-gomez
+          keep_files: true
