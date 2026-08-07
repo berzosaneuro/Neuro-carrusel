@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 # Pages serves this site from the gh-pages branch, so the build is published
-# by pushing to that branch rather than through the Pages deployment API.
+# by committing to that branch rather than through the Pages deployment API.
 permissions:
   contents: write
 
@@ -33,10 +33,28 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           touch client/dist/.nojekyll
-          cd client/dist
-          git init -q -b gh-pages
+          REMOTE="https://x-access-token:$TOKEN@github.com/$GITHUB_REPOSITORY.git"
+
+          # Reuse the existing branch so sibling sites published into their own
+          # subdirectories (e.g. angie-gomez/) survive this deployment.
+          if git clone --depth 1 --branch gh-pages "$REMOTE" out; then
+            cd out
+            # Drop only this site's own output: the root-level files it owns
+            # and its hashed asset bundle. Other directories are left alone.
+            find . -maxdepth 1 -mindepth 1 ! -name .git -type f -delete
+            rm -rf assets
+          else
+            mkdir out && cd out && git init -q -b gh-pages
+            git remote add origin "$REMOTE"
+          fi
+
+          cp -r ../client/dist/. .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to publish."
+            exit 0
+          fi
           git commit -q -m "Deploy $GITHUB_SHA"
-          git push -f -q "https://x-access-token:$TOKEN@github.com/$GITHUB_REPOSITORY.git" gh-pages
+          git push -q origin gh-pages
