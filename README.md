@@ -55,6 +55,11 @@ cd client && npm run build
 
 y sube el contenido de `client/dist` a la rama `gh-pages`.
 
-`vite.config.ts` fija `base: '/neuro-carrusel/'` porque el sitio se sirve desde un
-subdirectorio. La app usa `HashRouter`, de modo que las rutas funcionan en GitHub Pages
-sin necesidad de reglas de reescritura en el servidor.
+`vite.config.ts` usa `base: './'` (rutas relativas), así que el mismo build sirve tanto
+desde la raíz de un dominio como desde un subdirectorio. La app usa `HashRouter`, de modo
+que las rutas funcionan en GitHub Pages sin reglas de reescritura en el servidor.
+
+> **Ojo:** la rama `gh-pages` está compartida con otro sitio de este repositorio, que se
+> publica en `gh-pages/angie-gomez/`. Por eso el workflow de despliegue reemplaza
+> únicamente los archivos de la raíz y su carpeta `assets/`, en lugar de reescribir la
+> rama entera. Cualquier cambio en ese workflow debe mantener esa garantía.
