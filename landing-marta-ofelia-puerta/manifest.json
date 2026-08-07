@@ -1,0 +1,17 @@
+{
+  "name": "Marta Ofelia Puerta — Psicóloga TEA",
+  "short_name": "Marta Ofelia",
+  "description": "Psicóloga clínica especialista en autismo (TEA). Evaluación, terapia y acompañamiento neuroafirmativo.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050318",
+  "theme_color": "#050318",
+  "orientation": "portrait",
+  "lang": "es",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

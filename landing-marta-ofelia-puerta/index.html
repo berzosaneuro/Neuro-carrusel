@@ -6,6 +6,13 @@
 <title>Marta Ofelia Puerta · Psicóloga especialista en Autismo (TEA)</title>
 <meta name="description" content="Marta Ofelia Puerta, psicóloga clínica colombiana especialista en autismo (TEA). Evaluación, terapia y acompañamiento neuroafirmativo para personas autistas y sus familias." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23050318' stroke='%2300f0ff' stroke-width='4'/%3E%3Ctext x='50' y='64' font-size='42' text-anchor='middle' fill='%2300f0ff' font-family='sans-serif'%3EM%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+<meta name="theme-color" content="#050318" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Marta Ofelia" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -705,6 +712,82 @@
     background: rgba(234, 246, 255, 0.35);
     z-index: 41;
   }
+
+  /* ---------- Add-to-Home-Screen banner ---------- */
+  .a2hs-banner {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 5.6rem;
+    z-index: 60;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.9rem;
+    border-radius: 16px;
+    background: linear-gradient(160deg, rgba(20, 17, 58, 0.97), rgba(10, 8, 30, 0.97));
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.15);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .a2hs-banner[hidden] { display: none; }
+  .a2hs-banner.show { opacity: 1; transform: translateY(0); }
+  .a2hs-badge {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1.5px solid rgba(0, 240, 255, 0.4);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+    color: var(--cyan);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+  }
+  .a2hs-body { flex: 1; min-width: 0; }
+  .a2hs-title {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+  .a2hs-desc { font-size: 0.76rem; line-height: 1.45; color: var(--ink-dim); }
+  .a2hs-desc strong { color: var(--cyan); font-weight: 700; }
+  .a2hs-close {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(139, 143, 199, 0.15);
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .a2hs-cta[hidden] { display: none; }
+  .a2hs-cta {
+    margin-top: 0.6rem;
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.74rem;
+    padding: 0.42rem 0.85rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: #04030d;
+    background: linear-gradient(160deg, var(--cyan), #0aa8ff);
+  }
 </style>
 </head>
 <body>
@@ -1024,6 +1107,16 @@
       </button>
     </div>
     <div class="home-indicator"></div>
+
+    <div id="a2hsBanner" class="a2hs-banner" hidden>
+      <div class="a2hs-badge">MOP</div>
+      <div class="a2hs-body">
+        <p class="a2hs-title">Instala esta app</p>
+        <p class="a2hs-desc" id="a2hsDesc">Añádela a tu pantalla de inicio para abrirla como una app.</p>
+        <button class="a2hs-cta" id="a2hsCta" hidden>Instalar app</button>
+      </div>
+      <button class="a2hs-close" id="a2hsClose" aria-label="Cerrar">×</button>
+    </div>
   </div>
 </div>
 
@@ -1266,6 +1359,62 @@
       slotsListEl.querySelectorAll('.slot-item').forEach((i) => i.classList.remove('selected'));
     });
   }
+
+  // Add-to-Home-Screen banner: platform-aware instructions for iOS / Android
+  (function a2hsSetup() {
+    const banner = document.getElementById('a2hsBanner');
+    if (!banner) return;
+
+    const ua = navigator.userAgent || '';
+    const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /android/i.test(ua);
+    if (!isIOS && !isAndroid) return; // desktop: don't show
+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone) return; // already installed
+
+    if (localStorage.getItem('a2hsDismissed') === '1') return;
+
+    const descEl = document.getElementById('a2hsDesc');
+    const ctaBtn = document.getElementById('a2hsCta');
+    let deferredPrompt = null;
+
+    if (isIOS) {
+      descEl.innerHTML = 'Toca <strong>Compartir</strong> (el ícono con la flecha hacia arriba) y luego <strong>“Añadir a pantalla de inicio”</strong>.';
+    } else {
+      descEl.innerHTML = 'Toca el menú <strong>⋮</strong> del navegador y elige <strong>“Añadir a pantalla de inicio”</strong>.';
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      ctaBtn.hidden = false;
+      descEl.innerHTML = 'Instálala para abrirla como una app, sin la barra del navegador.';
+    });
+
+    ctaBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      dismiss();
+    });
+
+    function dismiss() {
+      banner.classList.remove('show');
+      setTimeout(() => { banner.hidden = true; }, 300);
+      localStorage.setItem('a2hsDismissed', '1');
+    }
+
+    document.getElementById('a2hsClose').addEventListener('click', dismiss);
+
+    window.addEventListener('appinstalled', dismiss);
+
+    setTimeout(() => {
+      banner.hidden = false;
+      requestAnimationFrame(() => banner.classList.add('show'));
+    }, 1800);
+  })();
 </script>
 </body>
 </html>
