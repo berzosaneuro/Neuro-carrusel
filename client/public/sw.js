@@ -1,7 +1,14 @@
 // Paths are relative to the service worker scope so the app also works when
 // it is served from a subdirectory (GitHub Pages).
-const CACHE_NAME = 'english-app-v2';
-const APP_SHELL = ['./', './manifest.json', './favicon.svg'];
+const CACHE_NAME = 'english-app-v3';
+const APP_SHELL = [
+  './',
+  './manifest.json',
+  './favicon.svg',
+  './apple-touch-icon.png',
+  './icon-192.png',
+  './icon-512.png',
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
